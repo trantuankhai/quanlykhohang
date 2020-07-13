@@ -18,7 +18,13 @@ class Pos extends CI_Controller
 
         $data['seo']['title'] = "Phần mềm quản lý bán hàng";
         $data['data']['user'] = $this->auth;
-        $data['data']['sale'] = $this->db->from('users')->where('user_status', '1')->get()->result_array();
+        $group_id = $this->auth['group_id'];
+         $user_id = $this->auth['id'];
+        if($group_id !=3){
+           $data['data']['sale'] = $this->db->from('users')->where('user_status', '1')->get()->result_array(); 
+        }else{
+            $data['data']['sale'] = $this->db->from('users')->where('ID', $user_id)->get()->result_array();
+        }
         $store = $this->db->from('stores')->get()->result_array();
         $data['data']['store'] = $store;
         $store_id = $this->db->select('store_id')->from('users')->where('id',$this->auth['id'])->limit(1)->get()->row_array();

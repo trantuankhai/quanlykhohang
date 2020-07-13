@@ -144,12 +144,13 @@ function cms_func_common() {
         $('#customer-id').on('change', function () {
             cms_paging_order(1);
         });
-
         $("input.discount-order").keyup(function () {
             cms_load_infor_order();
         });
-
         $("input.quantity_product_order").keyup(function () {
+            cms_load_infor_order();
+        });
+        $("input.bonus").keyup(function () {
             cms_load_infor_order();
         });
     }
@@ -158,7 +159,9 @@ function cms_func_common() {
         $("input.discount-order").keyup(function () {
             cms_load_infor_order();
         });
-
+        $("input.bonus").keyup(function () {
+            cms_load_infor_order();
+        });
         $("input.quantity_product_order").keyup(function () {
             cms_load_infor_order();
         });
@@ -2229,14 +2232,17 @@ function cms_selected_mas($id) {
 }
 
 function cms_save_orders(type) {
+     $sale_id = $('#sale_id').val();
     if ($('tbody#pro_search_append tr').length == 0) {
         $('.ajax-error-ct').html('Xin vui lòng chọn ít nhất 1 sản phẩm cần xuất trước khi lưu đơn hàng. Xin cảm ơn!').parent().fadeIn().delay(1000).fadeOut('slow');
+    }else if($sale_id == ''){
+$('.ajax-error-ct').html('Xin vui lòng chọn nhân viên bán hàng. Xin cảm ơn!').parent().fadeIn().delay(1000).fadeOut('slow');
     } else {
         $customer_id = $('#search-box-cys').attr('data-id');
         $store_id = $('#store-id').val();
         $date = $('#date-order').val();
         $note = $('#note-order').val();
-        $sale_id = $('#sale_id').val();
+        $order_bonus =cms_decode_currency_format(typeof $('.bonus').val() === 'undefined' ? 0 : $('.bonus').val());
         $payment_method = $("input:radio[name ='method-pay']:checked").val();
         $discount = cms_decode_currency_format(typeof $('input.discount-order').val() === 'undefined' ? 0 : $('input.discount-order').val());
         $customer_pay = cms_decode_currency_format($('.customer-pay').val());
@@ -2264,7 +2270,8 @@ function cms_save_orders(type) {
                 'coupon': $discount,
                 'customer_pay': $customer_pay,
                 'detail_order': $detail,
-                'order_status': $order_status
+                'order_status': $order_status,
+                'order_bonus' : $order_bonus
             }
         };
 
@@ -2895,9 +2902,13 @@ function cms_load_infor_order() {
     if ($discount > $total_money) {
         $('input.discount-order').val($total_money);
         $discount = $total_money;
+    }   
+    $bonus = $('.bonus').val();
+    if($bonus != '') {
+        $total_after_discount = ($total_money - $discount) + cms_decode_currency_format($bonus);
+    }else{
+        $total_after_discount = $total_money - $discount;    
     }
-
-    $total_after_discount = $total_money - $discount;
     $('.total-after-discount').text(cms_encode_currency_format($total_after_discount));
     $('input.customer-pay').val(cms_encode_currency_format($total_after_discount));
     $('div.debt').text(0);

@@ -166,6 +166,16 @@
                                                     </div>
                                                     <div class="form-group marg-bot-10 clearfix">
                                                         <div class="col-md-4">
+                                                            <label>Bonus</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <input type="text"
+                                                                   class="form-control text-right txtMoney bonus"
+                                                                   placeholder="0" style="border-radius: 0 !important;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group marg-bot-10 clearfix">
+                                                        <div class="col-md-4">
                                                             <label>Tổng cộng</label>
                                                         </div>
                                                         <div class="col-md-8">

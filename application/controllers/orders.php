@@ -531,7 +531,13 @@ class Orders extends CI_Controller
     public function cms_vsell_order()
     {
         if ($this->auth == null) $this->cms_common_string->cms_redirect(CMS_BASE_URL . 'backend');
-        $data['data'] = $this->db->from('users')->where('user_status', '1')->get()->result_array();
+        $group_id = $this->auth['group_id'];
+         $user_id = $this->auth['id'];
+        if($group_id !=3){
+           $data['data'] = $this->db->from('users')->where('user_status', '1')->get()->result_array(); 
+        }else{
+            $data['data'] = $this->db->from('users')->where('ID', $user_id)->get()->result_array();
+        } 
         $this->load->view('ajax/orders/sell_bill', isset($data) ? $data : null);
     }
 
@@ -677,16 +683,15 @@ class Orders extends CI_Controller
                     $total_quantity +=$item['quantity'];
                     $detail_order[] = $item;
                 }
-
+            $order['total_price'] = $total_price;
             $order['total_price'] = $total_price;
             $order['total_origin_price'] = $total_origin_price;
-            $order['total_money'] = $total_price-$order['coupon'];
+            $order['total_money'] = $total_price-$order['coupon']+$order['order_bonus'];
             $order['total_quantity'] = $total_quantity;
-            $order['lack'] = $total_price - $order['customer_pay'] - $order['coupon'] > 0 ? $total_price - $order['customer_pay'] - $order['coupon'] : 0;
+            $order['lack'] = $total_price - $order['customer_pay'] - $order['coupon'] + $order['order_bonus']> 0 ? $total_price - $order['customer_pay'] - $order['coupon'] + $order['order_bonus'] : 0;
             $order['user_init'] = $this->auth['id'];
             $order['store_id'] = $store_id;
             $order['detail_order'] = json_encode($detail_order);
-
             $this->db->select_max('output_code')->like('output_code', 'PX');
             $max_output_code = $this->db->get('orders')->row();
             $max_code = (int)(str_replace('PX', '', $max_output_code->output_code)) + 1;

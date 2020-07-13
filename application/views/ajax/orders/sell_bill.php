@@ -17,7 +17,7 @@
                         </button>
                         <button type="button" class="btn btn-primary"  onclick="cms_save_orders(2)"><i class="fa fa-print"></i> Lưu và in
                         </button>
-                        <a href="/QLBanHangOnline/orders">
+                        <a href="orders">
                             <button type="button" class="btn-back btn btn-primary"><i class="fa fa-arrow-left"></i> Trở lại
                             </button>
                         </a>
@@ -199,6 +199,16 @@
                             </div>
                             <div class="form-group marg-bot-10 clearfix">
                                 <div class="col-md-4">
+                                    <label>Bonus</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text"
+                                           class="form-control text-right txtMoney bonus"
+                                           placeholder="0" style="border-radius: 0 !important;">
+                                </div>
+                            </div>                            
+                            <div class="form-group marg-bot-10 clearfix">
+                                <div class="col-md-4">
                                     <label>Tổng cộng</label>
                                 </div>
                                 <div class="col-md-8">
@@ -238,7 +248,7 @@
                         </button>
                         <button type="button" class="btn btn-primary"  onclick="cms_save_orders(2)"><i class="fa fa-print"></i> Lưu và in
                         </button>
-                        <a href="/QLBanHangOnline/orders">
+                        <a href="orders">
                             <button type="button" class="btn-back btn btn-primary"><i class="fa fa-arrow-left"></i> Trở lại
                             </button>
                         </a>

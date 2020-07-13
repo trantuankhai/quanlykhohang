@@ -145,6 +145,16 @@
                             </div>
                             <div class="form-group marg-bot-10 clearfix">
                                 <div class="col-md-5">
+                                    <label>Bonus</label>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="">
+                                        <?php echo cms_encode_currency_format($data['_order']['order_bonus']); ?>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="form-group marg-bot-10 clearfix">
+                                <div class="col-md-5">
                                     <label>Chiếc khấu</label>
                                 </div>
                                 <div class="col-md-7">
