@@ -23,7 +23,10 @@
             <li id="revenue"><a href="revenue"><i class="fa fa-connectdevelop"></i><b>Doanh số</b></a></li>
         <?php endif; ?>
         <?php if (in_array(8, $user['group_permission'])) : ?>
-            <li><a href="#"><i class="fa fa-file-text"></i><b>Thu chi</b></a></li>
+            <li id="revenueAndExpenditure"><a href="revenueAndExpenditure"><i class="fa fa-file-text"></i><b>Thu chi</b></a></li>
+        <?php endif; ?>
+                <?php if (in_array(8, $user['group_permission'])) : ?>
+            <li id="depreciation"><a href="depreciation"><i class="fa fa-file-text"></i><b>Khấu hao</b></a></li>
         <?php endif; ?>
         <?php if (in_array(9, $user['group_permission'])) : ?>
             <li id="profit"><a href="profit"><i class="fa fa-usd"></i><b> Lợi nhuận</b></a></li>

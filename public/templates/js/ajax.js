@@ -94,7 +94,13 @@ $(document).ready(function () {
         cms_selboxstock();
         initBasic();
     }
-
+    if (window.location.pathname.indexOf('Expenditure') !== -1) {
+        $('li#revenue').removeClass('active');
+        $('li#revenueAndExpenditure').addClass('active');
+    }
+    if (window.location.pathname.indexOf('depreciation') !== -1) {
+        $('li#depreciation').addClass('active');
+    }
     if (window.location.pathname.indexOf('customer') !== -1) {
         $('li#customer').addClass('active');
         $('#customer_birthday').datetimepicker({
