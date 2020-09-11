@@ -193,3 +193,32 @@ if (!function_exists('cms_encode_currency_format')) {
         return $price;
     }
 }
+if (!function_exists('cms_getNameProduct')) {
+
+    function cms_getNameProduct($id)
+    {
+        $name = "không xác định";
+        $CI =& get_instance();
+        $NameProduct = $CI->db->select('prd_name')->from('cms_products')->where('prd_code', $id)->get()->row_array();
+        if (isset($NameProduct) && count($NameProduct)) {
+            $name = $NameProduct['prd_name'];
+        }
+
+        return $name;
+    }
+}
+if (!function_exists('cms_getPriceProduct')) {
+
+    function cms_getPriceProduct($id)
+    {
+        $price = "0";
+        $CI =& get_instance();
+        $PriceProduct = $CI->db->select('prd_origin_price')->from('cms_products')->where('prd_code', $id)->get()->row_array();
+        if (isset($PriceProduct) && count($PriceProduct)) {
+            $price = $PriceProduct['prd_origin_price'];
+        }
+
+        return $price;
+    }
+}
+

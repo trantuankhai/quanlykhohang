@@ -52,10 +52,7 @@
                            echo 'cms_del_import';
                        else
                            echo 'cms_del_temp_import'?>(<?php echo $item['ID'].','.$page; ?>)"></i></td>
-                <td class="text-center"><label class="checkbox" style="margin: 0;"><input type="checkbox"
-                                                                                          value="<?php echo $item['ID']; ?>"
-                                                                                          class="checkbox chk"><span
-                            style="width: 15px; height: 15px;"></span></label>
+                <td class="text-center"><label class="checkbox" style="margin: 0;"><input type="checkbox"style="width: 15px; height: 15px;"></span></label>
             </tr>
             <tr class="tr-hide" id="tr-detail-input-<?php echo $item['ID']?>">
                 <td colspan="15">

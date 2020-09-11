@@ -169,6 +169,7 @@ class Orders extends CI_Controller
         $data_template['content'] = str_replace("{Ma_Don_Hang}", $data_order['output_code'], $data_template['content']);
         $data_template['content'] = str_replace("{Ghi_Chu}", $data_order['notes'], $data_template['content']);
         $data_template['content'] = str_replace("{So_Tien_Bang_Chu}", $this->convert_number_to_words($data_order['lack']), $data_template['content']);
+        $data_template['content'] = str_replace("{Ten_Nhan_Vien}",$user_name,$data_template['content']);
 
         $detail ='';
         $number = 1;
@@ -624,9 +625,10 @@ class Orders extends CI_Controller
                 <td class="text-center seq"><?php echo $seq; ?></td>
                 <td><?php echo $product['prd_code']; ?></td>
                 <td><?php echo $product['prd_name']; ?></td>
-                <td class="text-center" style="max-width: 30px;"><input style="max-height: 22px;" type="text"
-                                                                        class="txtNumber form-control quantity_product_order text-center"
-                                                                        value="1"></td>
+                <td class="text-center" style="max-width: 30px;">
+                    <input style="max-height: 22px;" type="text"class="txtNumber form-control quantity_product_order text-center"
+                                                                        value="1">
+                </td>
                 <td class="text-center price-order"><?php echo number_format($product['prd_sell_price']); ?></td>
                 <td style="display: none;"
                     class="text-center price-order-hide"><?php echo $product['prd_sell_price']; ?></td>
@@ -639,7 +641,33 @@ class Orders extends CI_Controller
             echo $html;
         }
     }
-
+    public function cms_select_product_repreciation()
+    {
+        $id = $this->input->post('id');
+        $seq = $this->input->post('seq');
+        $product = $this->db->from('products')->where('ID', $id)->get()->row_array();
+        if (isset($product) && count($product) != 0) {
+            ob_start(); ?>
+            <tr data-id="<?php echo $product['ID']; ?>">
+                <td class="text-center seq"><?php echo $seq; ?></td>
+                <td><?php echo $product['prd_code']; ?></td>
+                <td><?php echo $product['prd_name']; ?></td>
+                <td class="text-center" style="max-width: 30px;">
+                    <input style="max-height: 22px;" type="text"class="txtNumber form-control quantity_product_order text-center"
+                                                                        value="1">
+                </td>
+                <td class="text-center price-order"><?php echo number_format($product['prd_origin_price']); ?></td>
+                <td style="display: none;"
+                    class="text-center price-order-hide"><?php echo $product['prd_origin_price']; ?></td>
+                <td class="text-center total-money"><?php echo $product['prd_origin_price']; ?></td>
+                <td class="text-center"><i class="fa fa-trash-o del-pro-order"></i></td>
+            </tr>
+            <?php
+            $html = ob_get_contents();
+            ob_end_clean();
+            echo $html;
+        }
+    }
     public function cms_save_orders($store_id)
     {
         if($store_id==$this->auth['store_id']){

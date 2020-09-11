@@ -30,8 +30,9 @@ $(document).ready(function () {
         cms_paging_order(1);
         cms_order_search();
     }
-
-    if (window.location.pathname.indexOf('revenue') !== -1) {
+// debugger;
+// console.log(window.location.pathname);   
+    if (window.location.pathname.indexOf('revenue') !== -1 && window.location.pathname.indexOf('revenueAndExpenditure') == -1) {
         $('.input-daterange').datepicker({
             format: "yyyy-mm-dd",
             todayBtn: "linked",
@@ -45,7 +46,13 @@ $(document).ready(function () {
         cms_paging_revenue(1);
         cms_revenue_search();
     }
-
+    // Start Show Data Screen thu chi
+    if (window.location.pathname.indexOf('Expenditure') !== -1) {
+        $('li#revenue').removeClass('active');
+        $('li#revenueAndExpenditure').addClass('active');
+        cms_paging_reve(1);
+    }
+    // End Show Data Screen thu chi    
     if (window.location.pathname.indexOf('profit') !== -1) {
         $('.input-daterange').datepicker({
             format: "yyyy-mm-dd",
@@ -94,12 +101,9 @@ $(document).ready(function () {
         cms_selboxstock();
         initBasic();
     }
-    if (window.location.pathname.indexOf('Expenditure') !== -1) {
-        $('li#revenue').removeClass('active');
-        $('li#revenueAndExpenditure').addClass('active');
-    }
     if (window.location.pathname.indexOf('depreciation') !== -1) {
         $('li#depreciation').addClass('active');
+        csm_paging_depre(1);
     }
     if (window.location.pathname.indexOf('customer') !== -1) {
         $('li#customer').addClass('active');
@@ -145,7 +149,11 @@ function cms_func_common() {
             return false;
         }
     });
-
+    if (window.location.pathname.indexOf('depreciation') !== -1) {
+               $("input.quantity_product_order").keyup(function () {
+                cms_load_infor_order();
+            }); 
+    }
     if (window.location.pathname.indexOf('orders') !== -1) {
         $('#customer-id').on('change', function () {
             cms_paging_order(1);
@@ -2021,6 +2029,7 @@ function cms_profit_search() {
 }
 
 function cms_autocomplete_enter_sell() {
+
     $barcode = $("#search-pro-box").val();
     var $param = {
         'type': 'POST',
@@ -2144,6 +2153,10 @@ function cms_search_box_sup() {
 }
 
 function cms_select_product_sell($id) {
+    var url = 'orders/cms_select_product/';
+    if(window.location.href.indexOf('depreciation')!=-1){
+        url = 'orders/cms_select_product_repreciation/'
+    }
     if ($('tbody#pro_search_append tr').length != 0) {
         $flag = 0;
         $('tbody#pro_search_append tr').each(function () {
@@ -2160,7 +2173,7 @@ function cms_select_product_sell($id) {
             var $seq = parseInt($('td.seq').last().text()) + 1;
             var $param = {
                 'type': 'POST',
-                'url': 'orders/cms_select_product/',
+                'url': url,
                 'data': {'id': $id, 'seq': $seq},
                 'callback': function (data) {
                     $('#pro_search_append').append(data);
@@ -2172,7 +2185,7 @@ function cms_select_product_sell($id) {
     } else {
         var $param = {
             'type': 'POST',
-            'url': 'orders/cms_select_product/',
+            'url': url,
             'data': {'id': $id, 'seq': 1},
             'callback': function (data) {
                 $('#pro_search_append').append(data);
@@ -2466,7 +2479,12 @@ function cms_save_import(type) {
         $date = $('#date-order').val();
         $note = $('#note-order').val();
         $payment_method = $("input:radio[name ='method-pay']:checked").val();
-        $discount = cms_decode_currency_format($('input.discount-import').val());
+        if($('input.discount-import').val() == '' || $('input.discount-import').val() == undefined){
+            $discount = 0 ;
+        }else{
+             $discount = cms_decode_currency_format($('input.discount-import').val());
+        }
+       
         $khachdua = cms_decode_currency_format($('.customer-pay').val());
         $detail = [];
         $('tbody#pro_search_append tr').each(function () {
@@ -2890,6 +2908,7 @@ function cms_export_inventory() {
 }
 
 function cms_load_infor_order() {
+
     $total_money = 0;
     $('tbody#pro_search_append tr').each(function () {
         $quantity_product = $(this).find('input.quantity_product_order').val();
@@ -2899,18 +2918,22 @@ function cms_load_infor_order() {
         $(this).find('td.total-money').text(cms_encode_currency_format($total));
     });
     $('div.total-money').text(cms_encode_currency_format($total_money));
-
     if ($('input.discount-order').val() == '')
         $discount = 0;
     else
-        $discount = cms_decode_currency_format($('input.discount-order').val());
+        if($('input.discount-order').length!=false){
+            $discount = cms_decode_currency_format($('input.discount-order').val());
+        }else{
+            $discount = 0;
+        }
+        
 
     if ($discount > $total_money) {
         $('input.discount-order').val($total_money);
         $discount = $total_money;
     }   
     $bonus = $('.bonus').val();
-    if($bonus != '') {
+    if($bonus != '' && $('.bonus').length!=false) {
         $total_after_discount = ($total_money - $discount) + cms_decode_currency_format($bonus);
     }else{
         $total_after_discount = $total_money - $discount;    
@@ -3134,4 +3157,282 @@ function cms_del_icon_click(obs, attach) {
     $('body').on('click', obs, function () {
         $(this).html('').parent().find(attach).val('').removeAttr('data-id').prop('readonly', false);
     })
+}
+/*=================== Module revenueAndExpenditure ===========================*/
+function cms_add_revenue() {
+    var $param = {
+        'type': 'POST',
+        'url': 'revenueAndExpenditure/cms_add_revenue/',
+        'data': null,
+        'callback': function (data) {
+            $('.revenueAndExpenditure').html(data);
+        }
+    };
+    cms_adapter_ajax($param);
+}
+function cms_paging_reve($page){
+    var elementSearchBox =  $('#input-search');
+    if(elementSearchBox.length ==0){
+        $keyword = $('#order-search').val();
+    }else{
+        $keyword = elementSearchBox.val()
+    }
+    $option1 = $('#search-option-1').val();
+    //$option2 = $('#search-option-2').val();
+    //$option3 = $('#search-option-3').val();
+    $date_from = $('#search-date-from').val();
+    $date_to = $('#search-date-to').val();
+    $data = {'data': {'option1': $option1, 'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
+    var $param = {
+        'type': 'POST',
+        'url': 'revenueAndExpenditure/cms_paging_reve/' + $page,
+        'data': $data,
+        'callback': function (data) {
+            $('.revenueAndExpenditure-main-body').html(data);
+        }
+    };
+    cms_adapter_ajax($param);
+
+}
+csm_paging_depre = ($page) =>{
+        var elementSearchBox =  $('#input-search');
+    if(elementSearchBox.length ==0){
+        $keyword = $('#order-search').val();
+    }else{
+        $keyword = elementSearchBox.val()
+    }
+    $option1 = $('#search-option-1').val();
+    //$option2 = $('#search-option-2').val();
+    //$option3 = $('#search-option-3').val();
+    $date_from = $('#search-date-from').val();
+    $date_to = $('#search-date-to').val();
+    $data = {'data': {'option1': $option1, 'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
+        var $param = {
+        'type': 'POST',
+        'url': 'depreciation/csm_paging_depre/' + $page,
+        'data': $data,
+        'callback': function (data) {
+            $('.depreciation-main-body').html(data);
+        }
+    };
+    cms_adapter_ajax($param);
+} 
+function validateForm($name,$date,$total){
+    var flag = true;
+    if ($name.length == 0) {
+        $('.error_reve_name').text('Vui lòng nhập tên khoản chi.');
+        flag = false;
+    }else{
+        $('.error_reve_name').text('');
+        if ( flag == true) {
+            flag = true;
+        }    
+    }
+    if($date.length == 0){
+        $('.error-reve-date').text('Vui lòng nhập ngày khoản chi.');
+        flag = false;
+    }else{
+        $('.error-reve-date').text('');
+       if ( flag == true) {
+            flag = true;
+        }
+    }
+    if($total.length == 0 || $total == 0){
+        $('.error-reve-total').text('Vui lòng nhập tổng tiền');
+        flag = false;
+    }else{
+          $('.error-reve-total').text('');
+       if ( flag == true) {
+            flag = true;
+        }
+    }
+    return flag;
+}
+let flagControlModal = false;
+function add_reve_hihi($condition){
+    var curr = new Date; 
+    var first = curr.getDate();
+    firstday = new Date(curr.setDate(first)).toISOString().split('T')[0];
+
+   "use strict";
+    var $code = $.trim($('#reve_code').val());
+    var $name = $.trim($('#reve_name').val());
+    var $date = $.trim($('#date_reve').val());
+    var $total = $.trim($('#total_reve').val());
+    var $note_reve = $.trim($('#note_reve').val());
+
+    var flag = validateForm($name,$date,$total);
+    if (flag == true) {
+                var $data = {
+            'data': {
+                'reve_code': $code,
+                'name_revenue': $name,
+                'total_money_revenue':$total.split(",").join(""),
+                'note_revenue': $note_reve,
+                'input_status':1,
+                'created': $date,
+                'updated':firstday,
+                'user_init':'1',
+                'user_upd': '1',
+                'deleted':'0'
+            }
+        };
+        var $param = {
+            'type': 'POST',
+            'url': 'revenueAndExpenditure/add_vere',
+            'data': $data,
+            'callback': function (data) {
+                if (data > 0) {
+                    
+                    $('.ajax-error-ct').hide();
+                    $('.ajax-success-ct').html('Bạn đã tạo mới khách hàng thành công!').parent().fadeIn().delay(1000).fadeOut('slow');
+                    if($condition!='saveandcontinue'){
+                        $('.btn-close').trigger('click');
+                        location.reload();
+                    }else{
+                        flagControlModal = true;
+                        $('#reve_code').val('');
+                        $('#reve_name').val('');
+                        $('#date_reve').val('');
+                        $('#total_reve').val('');
+                        $('#note_reve').val('');
+                    }                
+                }else {
+                    $('.ajax-error-ct').html('Mã khách hàng đã tồn tại, Vui lòng chọn mã khác').parent().fadeIn().delay(1000).fadeOut('slow');
+                }
+            }
+        };
+        cms_adapter_ajax($param);
+    }
+}
+$('#create-reve').on('hidden.bs.modal', function (e) {
+    if(flagControlModal == true){
+    console.log('close');
+    setTimeout(function () {
+        location.reload();
+    }, 1000);
+    }
+});
+function cms_del_reve($id, $page) {
+    var conf = confirm('Bạn chắc chắn muốn xóa ?');
+    if (conf) {
+        var $param = {
+            'type': 'POST',
+            'url': 'revenueAndExpenditure/cms_del_reve/' + $id,
+            'data': null,
+            'callback': function (data) {
+                if (data == '1') {
+                    cms_paging_input($page);
+                    $('.ajax-success-ct').html('Xóa phiếu nhập thành công.').parent().fadeIn().delay(1000).fadeOut('slow');
+                    setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                } else if (data == '0') {
+                    $('.ajax-error-ct').html('Oops! This system is errors! please try again.').parent().fadeIn().delay(1000).fadeOut('slow');
+                }
+            }
+        };
+        cms_adapter_ajax($param);
+    }
+}
+function cms_reve_month() {
+    cms_set_current_month();
+    cms_paging_reve(1);
+}
+function cms_reve_week() {
+    cms_set_current_week();
+    cms_paging_reve(1);
+}
+function cms_reve_quarter() {
+    cms_set_current_quarter();
+    cms_paging_reve(1);
+}
+cms_depreciation_week = () =>{
+    cms_set_current_week();
+    csm_paging_depre(1);
+    
+}
+cms_depreciation_month = () =>{
+    cms_set_current_month();
+    csm_paging_depre(1);
+
+}
+cms_depreciation_quarter = () =>{
+    cms_set_current_quarter();
+    csm_paging_depre(1);
+    
+}
+$('#create-depreciation').click(function(event) {
+    $('.product-sear').css('display', 'none');
+    var $param = {
+        'type': 'POST',
+        'url': 'depreciation/showAddDepreciation/',
+        'data': null,
+        'callback': function (data) {
+            $('.depreciation-main-body').html(data);
+        }
+    };
+    cms_adapter_ajax($param);
+});
+function cms_save_depreciation(type) {
+        $date = $('#date-order').val();
+        $reason = $('#reason').val();
+        $note = $('#note').val();
+        var name = $('.dropdown-toggle').text().replace('Xin chào,','');
+    if ($('tbody#pro_search_append tr').length == 0) {
+        $('.ajax-error-ct').html('Xin vui lòng chọn ít nhất 1 sản phẩm cần xuất trước khi lưu. Xin cảm ơn!').parent().fadeIn().delay(1000).fadeOut('slow');
+    }else if($reason == ''){
+         $('.ajax-error-ct').html('Khờ quá, nguyên nhân còn thiếu kìa '+name).parent().fadeIn().delay(1000).fadeOut('slow');
+    } else {
+        $totalAfterDiscount = cms_decode_currency_format($('.total-after-discount').text());
+        $detail = [];
+        $('tbody#pro_search_append  tr').each(function () {
+            $id = $(this).children('td').eq(1).text();
+            $value_input = $(this).find('input.quantity_product_order').val();
+            $total_money = $(this).find('td.total-money').text();
+            $detail.push(
+                {id: $id, quantity: $value_input, total_money: $total_money}
+            );
+        });
+        $detail.forEach(function(key){
+          $data = {
+                'data': {
+                    'id_produce': key.id,
+                    'amount': key.quantity,
+                    'total': cms_decode_currency_format(key.total_money),
+                    'reason': $reason,
+                    'note' : $note,
+                    'created':$date
+                }
+            };
+        var $param = {
+            'type': 'POST',
+            'url': 'depreciation/addDepreciation/',
+            'data': $data,
+            'callback': function (data) {
+                if (data == '0') {
+                    $('.ajax-error-ct').html('Oops! This system is errors! please try again.').parent().fadeIn().delay(1000).fadeOut('slow');
+                } else {
+                    if (type == 1) {
+                        $('.ajax-success-ct').html('Đã lưu thành công rôì '+name + ' ơi' ).parent().fadeIn().delay(1000).fadeOut('slow');
+                        setTimeout(function () {
+                            $('.btn-back').delay('1000').trigger('click');
+                        }, 1000);
+                    } else if (type == 0) {
+                        $('.ajax-success-ct').html('Đã lưu tạm thành công đơn hàng.').parent().fadeIn().delay(1000).fadeOut('slow');
+                        cms_vsell_order();
+                    } else if (type == 2) {
+                        cms_print_order_in_create(1, data);
+                    } else if (type == 3) {
+                        location.reload();
+                    } else if (type == 4) {
+                        cms_print_order_in_pos(1, data);
+                    }
+                }
+            }
+        };
+       cms_adapter_ajax($param);            
+      })
+
+}
 }

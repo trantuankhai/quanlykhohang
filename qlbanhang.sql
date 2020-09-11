@@ -29,19 +29,19 @@ SET time_zone = "+07:00";
 --
 
 CREATE TABLE `cms_customers` (
-  `ID` int(10) UNSIGNED NULL,
-  `customer_name` varchar(255) NULL,
-  `customer_code` varchar(10) NULL,
-  `customer_phone` varchar(20) NULL,
-  `customer_email` varchar(150) NULL,
-  `customer_addr` varchar(255) NULL,
-  `notes` text NULL,
-  `customer_birthday` date NULL,
-  `customer_gender` tinyint(1) NULL,
-  `created` datetime NULL,
-  `updated` datetime NULL,
-  `user_init` int(11) NULL,
-  `user_upd` int(11) NULL
+  `ID` int(10) UNSIGNED NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `customer_code` varchar(10) NOT NULL,
+  `customer_phone` varchar(20) NOT NULL,
+  `customer_email` varchar(150) NOT NULL,
+  `customer_addr` varchar(255) NOT NULL,
+  `notes` text NOT NULL,
+  `customer_birthday` date NOT NULL,
+  `customer_gender` tinyint(1) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -61,26 +61,26 @@ INSERT INTO `cms_customers` (`ID`, `customer_name`, `customer_code`, `customer_p
 --
 
 CREATE TABLE `cms_input` (
-  `ID` int(10) UNSIGNED NULL,
-  `input_code` varchar(9) NULL,
-  `supplier_id` int(11) NULL,
-  `store_id` int(11) NULL,
-  `input_date` datetime NULL,
-  `notes` varchar(255) NULL,
-  `payment_method` tinyint(4) NULL,
-  `total_price` int(13) NULL,
-  `total_quantity` int(9) NULL,
-  `discount` int(11) NULL,
-  `total_money` int(13) NULL,
-  `payed` int(11) NULL,
-  `lack` int(13) NULL,
-  `detail_input` text NULL,
-  `input_status` tinyint(1) NULL,
-  `created` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` datetime NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `user_init` int(11) NULL,
-  `user_upd` int(11) NULL,
-  `deleted` tinyint(1) NULL DEFAULT '0'
+  `ID` int(10) UNSIGNED NOT NULL,
+  `input_code` varchar(9) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `input_date` datetime NOT NULL,
+  `notes` varchar(255) NOT NULL,
+  `payment_method` tinyint(4) NOT NULL,
+  `total_price` int(13) NOT NULL,
+  `total_quantity` int(9) NOT NULL,
+  `discount` int(11) NOT NULL,
+  `total_money` int(13) NOT NULL,
+  `payed` int(11) NOT NULL,
+  `lack` int(13) NOT NULL,
+  `detail_input` text NOT NULL,
+  `input_status` tinyint(1) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
@@ -120,12 +120,12 @@ INSERT INTO `cms_input` (`ID`, `input_code`, `supplier_id`, `store_id`, `input_d
 --
 
 CREATE TABLE `cms_inventory` (
-  `store_id` int(5) NULL,
-  `product_id` int(10) NULL,
-  `quantity` int(11) NULL,
-  `user_init` int(11) NULL,
+  `store_id` int(5) NOT NULL,
+  `product_id` int(10) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `user_init` int(11) NOT NULL,
   `user_upd` int(11) DEFAULT NULL,
-  `created` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -200,28 +200,28 @@ INSERT INTO `cms_inventory` (`store_id`, `product_id`, `quantity`, `user_init`, 
 --
 
 CREATE TABLE `cms_orders` (
-  `ID` int(10) UNSIGNED NULL,
-  `output_code` varchar(9) NULL,
-  `customer_id` int(11) NULL,
-  `store_id` int(11) NULL,
-  `sell_date` datetime NULL,
-  `notes` varchar(255) NULL,
-  `payment_method` tinyint(4) NULL,
-  `total_price` int(13) NULL,
-  `total_origin_price` int(11) NULL,
-  `coupon` int(11) NULL,
-  `customer_pay` int(11) NULL,
-  `total_money` int(13) NULL,
-  `total_quantity` int(9) NULL,
-  `lack` int(13) NULL,
-  `detail_order` text NULL,
-  `order_status` tinyint(1) NULL,
-  `deleted` tinyint(1) NULL DEFAULT '0',
-  `created` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` datetime NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `user_init` int(11) NULL,
-  `user_upd` int(11) NULL,
-  `sale_id` int(5) NULL
+  `ID` int(10) UNSIGNED NOT NULL,
+  `output_code` varchar(9) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `sell_date` datetime NOT NULL,
+  `notes` varchar(255) NOT NULL,
+  `payment_method` tinyint(4) NOT NULL,
+  `total_price` int(13) NOT NULL,
+  `total_origin_price` int(11) NOT NULL,
+  `coupon` int(11) NOT NULL,
+  `customer_pay` int(11) NOT NULL,
+  `total_money` int(13) NOT NULL,
+  `total_quantity` int(9) NOT NULL,
+  `lack` int(13) NOT NULL,
+  `detail_order` text NOT NULL,
+  `order_status` tinyint(1) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL,
+  `sale_id` int(5) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -242,9 +242,9 @@ INSERT INTO `cms_orders` (`ID`, `output_code`, `customer_id`, `store_id`, `sell_
 --
 
 CREATE TABLE `cms_permissions` (
-  `id` int(10) UNSIGNED NULL,
-  `permission_url` varchar(255) NULL,
-  `permission_name` varchar(150) NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `permission_url` varchar(255) NOT NULL,
+  `permission_name` varchar(150) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -266,30 +266,30 @@ INSERT INTO `cms_permissions` (`id`, `permission_url`, `permission_name`) VALUES
 --
 
 CREATE TABLE `cms_products` (
-  `ID` int(10) UNSIGNED NULL,
-  `prd_code` varchar(15) NULL,
-  `prd_name` varchar(255) NULL,
-  `prd_sls` int(11) NULL,
-  `prd_origin_price` int(11) NULL,
-  `prd_sell_price` int(11) NULL,
-  `prd_vat` tinyint(4) NULL,
-  `prd_status` tinyint(1) NULL DEFAULT '1',
-  `prd_inventory` tinyint(1) NULL,
-  `prd_allownegative` tinyint(1) NULL,
-  `prd_manufacture_id` int(11) NULL,
-  `prd_group_id` int(11) NULL,
-  `prd_image_url` int(11) NULL,
-  `prd_descriptions` text NULL,
-  `prd_manuf_id` int(11) NULL,
-  `prd_hot` tinyint(1) NULL,
-  `prd_new` tinyint(1) NULL,
-  `prd_highlight` tinyint(1) NULL,
-  `display_website` tinyint(1) NULL,
-  `created` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` datetime NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `user_init` int(11) NULL,
-  `user_upd` int(11) NULL,
-  `deleted` tinyint(1) NULL DEFAULT '0'
+  `ID` int(10) UNSIGNED NOT NULL,
+  `prd_code` varchar(15) NOT NULL,
+  `prd_name` varchar(255) NOT NULL,
+  `prd_sls` int(11) NOT NULL,
+  `prd_origin_price` int(11) NOT NULL,
+  `prd_sell_price` int(11) NOT NULL,
+  `prd_vat` tinyint(4) NOT NULL,
+  `prd_status` tinyint(1) NOT NULL DEFAULT '1',
+  `prd_inventory` tinyint(1) NOT NULL,
+  `prd_allownegative` tinyint(1) NOT NULL,
+  `prd_manufacture_id` int(11) NOT NULL,
+  `prd_group_id` int(11) NOT NULL,
+  `prd_image_url` int(11) NOT NULL,
+  `prd_descriptions` text NOT NULL,
+  `prd_manuf_id` int(11) NOT NULL,
+  `prd_hot` tinyint(1) NOT NULL,
+  `prd_new` tinyint(1) NOT NULL,
+  `prd_highlight` tinyint(1) NOT NULL,
+  `display_website` tinyint(1) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -312,16 +312,16 @@ INSERT INTO `cms_products` (`ID`, `prd_code`, `prd_name`, `prd_sls`, `prd_origin
 --
 
 CREATE TABLE `cms_products_group` (
-  `ID` int(10) UNSIGNED NULL,
-  `prd_group_name` varchar(255) NULL,
-  `parentid` int(11) NULL,
-  `level` tinyint(4) NULL,
-  `lft` int(11) NULL,
-  `rgt` int(11) NULL,
-  `created` datetime NULL,
-  `updated` datetime NULL,
-  `user_init` tinyint(4) NULL,
-  `user_upd` tinyint(4) NULL
+  `ID` int(10) UNSIGNED NOT NULL,
+  `prd_group_name` varchar(255) NOT NULL,
+  `parentid` int(11) NOT NULL,
+  `level` tinyint(4) NOT NULL,
+  `lft` int(11) NOT NULL,
+  `rgt` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `user_init` tinyint(4) NOT NULL,
+  `user_upd` tinyint(4) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -445,12 +445,12 @@ INSERT INTO `cms_products_group` (`ID`, `prd_group_name`, `parentid`, `level`, `
 --
 
 CREATE TABLE `cms_products_manufacture` (
-  `ID` int(10) UNSIGNED NULL,
-  `prd_manuf_name` varchar(255) NULL,
-  `created` datetime NULL,
-  `updated` datetime NULL,
-  `user_init` int(11) NULL,
-  `user_upd` int(11) NULL
+  `ID` int(10) UNSIGNED NOT NULL,
+  `prd_manuf_name` varchar(255) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
@@ -502,29 +502,29 @@ INSERT INTO `cms_products_manufacture` (`ID`, `prd_manuf_name`, `created`, `upda
 --
 
 CREATE TABLE `cms_report` (
-  `ID` int(10) UNSIGNED NULL,
-  `transaction_code` varchar(9) NULL,
-  `transaction_id` int(10) NULL,
-  `customer_id` int(11) NULL,
-  `store_id` int(5) NULL,
-  `date` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `notes` varchar(255) NULL,
-  `product_id` int(10) NULL,
-  `discount` int(11) NULL,
-  `total_money` int(13) NULL,
-  `origin_price` int(11) NULL,
-  `input` int(11) NULL,
-  `output` int(9) NULL DEFAULT '0',
-  `price` int(11) NULL,
-  `deleted` tinyint(1) NULL DEFAULT '0',
-  `created` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` datetime NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `user_init` int(11) NULL,
-  `user_upd` int(11) NULL,
-  `sale_id` int(5) NULL,
-  `supplier_id` int(11) NULL,
-  `type` tinyint(4) NULL,
-  `stock` int(11) NULL
+  `ID` int(10) UNSIGNED NOT NULL,
+  `transaction_code` varchar(9) NOT NULL,
+  `transaction_id` int(10) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `store_id` int(5) NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `notes` varchar(255) NOT NULL,
+  `product_id` int(10) NOT NULL,
+  `discount` int(11) NOT NULL,
+  `total_money` int(13) NOT NULL,
+  `origin_price` int(11) NOT NULL,
+  `input` int(11) NOT NULL,
+  `output` int(9) NOT NULL DEFAULT '0',
+  `price` int(11) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL,
+  `sale_id` int(5) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL,
+  `stock` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -774,12 +774,12 @@ INSERT INTO `cms_report` (`ID`, `transaction_code`, `transaction_id`, `customer_
 --
 
 CREATE TABLE `cms_stores` (
-  `ID` int(5) UNSIGNED NULL,
-  `stock_name` varchar(255) NULL,
-  `user_init` int(11) NULL,
-  `user_upd` int(11) NULL,
-  `created` datetime NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` datetime NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
+  `ID` int(5) UNSIGNED NOT NULL,
+  `stock_name` varchar(255) NOT NULL,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -800,18 +800,18 @@ INSERT INTO `cms_stores` (`ID`, `stock_name`, `user_init`, `user_upd`, `created`
 --
 
 CREATE TABLE `cms_suppliers` (
-  `ID` int(10) UNSIGNED NULL,
-  `supplier_code` varchar(10) NULL,
-  `supplier_name` varchar(255) NULL,
-  `supplier_phone` varchar(30) NULL,
-  `supplier_email` varchar(150) NULL,
-  `supplier_addr` varchar(255) NULL,
-  `tax_code` varchar(255) NULL,
-  `notes` text NULL,
-  `created` datetime NULL,
-  `updated` datetime NULL,
-  `user_init` int(11) NULL,
-  `user_upd` int(11) NULL
+  `ID` int(10) UNSIGNED NOT NULL,
+  `supplier_code` varchar(10) NOT NULL,
+  `supplier_name` varchar(255) NOT NULL,
+  `supplier_phone` varchar(30) NOT NULL,
+  `supplier_email` varchar(150) NOT NULL,
+  `supplier_addr` varchar(255) NOT NULL,
+  `tax_code` varchar(255) NOT NULL,
+  `notes` text NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -833,10 +833,10 @@ INSERT INTO `cms_suppliers` (`ID`, `supplier_code`, `supplier_name`, `supplier_p
 --
 
 CREATE TABLE `cms_templates` (
-  `id` int(5) NULL,
-  `type` int(5) NULL,
-  `name` varchar(100) CHARACTER SET utf8 NULL,
-  `content` text CHARACTER SET utf8 NULL,
+  `id` int(5) NOT NULL,
+  `type` int(5) NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `content` text CHARACTER SET utf8 NOT NULL,
   `created` datetime DEFAULT NULL,
   `updated` datetime DEFAULT NULL,
   `user_upd` int(11) DEFAULT NULL
@@ -858,21 +858,21 @@ INSERT INTO `cms_templates` (`id`, `type`, `name`, `content`, `created`, `update
 --
 
 CREATE TABLE `cms_users` (
-  `id` int(10) UNSIGNED NULL,
-  `username` varchar(100) NULL,
-  `password` varchar(100) NULL,
-  `salt` varchar(255) NULL,
-  `email` varchar(120) NULL,
-  `display_name` varchar(120) NULL,
-  `user_status` tinyint(4) NULL,
-  `group_id` int(11) NULL,
-  `store_id` int(11) NULL,
-  `created` datetime NULL,
-  `updated` datetime NULL,
-  `logined` datetime(1) NULL,
-  `ip_logged` varchar(255) NULL,
-  `recode` varchar(255) NULL,
-  `code_time_out` varchar(255) NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `salt` varchar(255) NOT NULL,
+  `email` varchar(120) NOT NULL,
+  `display_name` varchar(120) NOT NULL,
+  `user_status` tinyint(4) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL,
+  `logined` datetime(1) NOT NULL,
+  `ip_logged` varchar(255) NOT NULL,
+  `recode` varchar(255) NOT NULL,
+  `code_time_out` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -905,11 +905,11 @@ INSERT INTO `cms_users` (`id`, `username`, `password`, `salt`, `email`, `display
 --
 
 CREATE TABLE `cms_users_group` (
-  `id` int(10) UNSIGNED NULL,
-  `group_name` varchar(255) NULL,
-  `group_permission` varchar(255) NULL,
-  `group_registered` datetime NULL,
-  `group_updated` datetime NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `group_name` varchar(255) NOT NULL,
+  `group_permission` varchar(255) NOT NULL,
+  `group_registered` datetime NOT NULL,
+  `group_updated` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -1017,81 +1017,100 @@ ALTER TABLE `cms_users_group`
 -- AUTO_INCREMENT cho bảng `cms_customers`
 --
 ALTER TABLE `cms_customers`
-  MODIFY `ID` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_input`
 --
 ALTER TABLE `cms_input`
-  MODIFY `ID` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_orders`
 --
 ALTER TABLE `cms_orders`
-  MODIFY `ID` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=248;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=248;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_permissions`
 --
 ALTER TABLE `cms_permissions`
-  MODIFY `id` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_products`
 --
 ALTER TABLE `cms_products`
-  MODIFY `ID` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_products_group`
 --
 ALTER TABLE `cms_products_group`
-  MODIFY `ID` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_products_manufacture`
 --
 ALTER TABLE `cms_products_manufacture`
-  MODIFY `ID` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_report`
 --
 ALTER TABLE `cms_report`
-  MODIFY `ID` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=382;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=382;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_stores`
 --
 ALTER TABLE `cms_stores`
-  MODIFY `ID` int(5) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_suppliers`
 --
 ALTER TABLE `cms_suppliers`
-  MODIFY `ID` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_templates`
 --
 ALTER TABLE `cms_templates`
-  MODIFY `id` int(5) NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_users`
 --
 ALTER TABLE `cms_users`
-  MODIFY `id` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `cms_users_group`
 --
 ALTER TABLE `cms_users_group`
-  MODIFY `id` int(10) UNSIGNED NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+CREATE TABLE `cms_depreciation` (
+  `ID` int(10) UNIQUE  NOT NULL key,
+  `id_produce` varchar(255) NOT NULL,
+  `amount` varchar(100) NULL,
+  `total` varchar(100) NULL,
+  `reason` text(1000) NULL,
+  `note` text(1000)  NULL,
+    `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL DEFAULT '0' ,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+ALTER TABLE `cms_depreciation`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  COMMIT;
+ 
+INSERT INTO `cms_templates` (`ID`, `id_produce`, `amount`, `total`, `reason`, `note`, `created`, `updated`, `user_init`, `user_upd`, `deleted`) VALUES(
+'1','SP00049','10','15000','die','notting','0000-00-00 00:00:00','1','1','1','1','1')

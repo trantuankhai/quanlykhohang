@@ -322,7 +322,85 @@
 </div>
 
 <!-- end customer -->
+<!-- start create reve -->
 
+<div class="modal fade" id="create-reve" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Tạo phiếu thu chi</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" >
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_name">Mã Phiếu</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" id="reve_code" name="customer_code" class="form-control" value=""
+                                   placeholder="Mã khách hàng(tự sinh nếu bỏ trống)">
+                            <span style="color: red; font-style: italic;" class="error error-customer_code"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_name">Khoản chi</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" id="reve_name" name="customer_name" class="form-control " value=""
+                                   placeholder="VD: Tiền thuê mặt bằng (bắt buộc)">
+                            <span style="color: red; font-style: italic;" class="error error_reve_name"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_phone">Ngày chi</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="date" id="date_reve" name="customer_phone"
+                                   class="form-control" value="" placeholder="">
+                            <span style="color: red; font-style: italic;" class="error error-reve-date"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_phone">Số tiền</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" id="total_reve" name="customer_phone"
+                                   class="form-control txtMoney" value="" placeholder="">
+                            <span style="color: red; font-style: italic;" class="error error-reve-total"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_email">Ghi chú</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" id="note_reve" name="customer_email" class="form-control" value=""
+                                   placeholder="">
+                            <span style="color: red; font-style: italic;" class="error error-customer_email"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm btn-crcust" onclick="add_reve_hihi('save');"><i
+                        class="fa fa-check"></i> Lưu
+                </button>
+                <button type="button" class="btn btn-primary " onclick="add_reve_hihi('saveandcontinue');"><i class="fa fa-floppy-o"></i> Lưu và tiếp tục
+                            </button>
+                <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal"><i
+                        class="fa fa-undo"></i> Bỏ qua
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end reve -->
 <!-- start create supplier -->
 
 <div class="modal fade" id="create-sup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

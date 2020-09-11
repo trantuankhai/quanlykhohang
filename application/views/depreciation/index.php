@@ -4,13 +4,13 @@
             <div class="products-act">
                 <div class="col-md-4 col-md-offset-2">
                     <div class="left-action text-left clearfix">
-                        <h2>Danh Sách Thu Chi</h2>
+                        <h2>Khấu Hao Sản Phẩm</h2>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="right-action text-right">
                         <div class="btn-groups">
-                            <button type="button" data-toggle="modal" data-target="#create-reve"class="btn btn-primary" ><i class="fa fa-plus"></i> Tao phiếu thu chi
+                            <button id="create-depreciation"class="btn btn-primary" ><i class="fa fa-plus"></i> Tao phiếu khấu hao
                             </button>
                             <button type="button" class="btn btn-success"><i class="fa fa-download"></i> Xuất Excel</button>
                         </div>
@@ -28,13 +28,6 @@
             <div class="form-group col-md-9 padd-0" style="padding-left: 5px;">
                 <div class="col-md-9 padd-0">
                     <div class="col-md-4">
-                        <select class="form-control" >
-                          <option value="">Chọn người chi</option>
-<!--                                        <?php foreach ($data as $item) { ?>
-                                            <option
-                                                value="<?php echo $item['id']; ?>"><?php echo $item['display_name']; ?></option>
-                                        <?php } ?> -->
-                        </select>
                      </div>
                     <div class="col-md-5 padd-0" style="padding-left: 5px;">
                         <div class="input-daterange input-group" id="datepicker">
@@ -50,15 +43,15 @@
                 </div>
                 <div class="col-md-3 padd-0" style="padding-left: 5px;">
                     <div class="btn-group revenueAndExpenditure-btn-calendar">
-                        <button type="button" onclick="cms_reve_week()" class="btn btn-default">Tuần</button>
-                        <button type="button" onclick="cms_reve_month()" class="btn btn-default">Tháng</button>
-                        <button type="button" onclick="cms_reve_quarter()" class="btn btn-default">Quý</button>
+                        <button type="button" onclick="cms_depreciation_week()" class="btn btn-default">Tuần</button>
+                        <button type="button" onclick="cms_depreciation_month()" class="btn btn-default">Tháng</button>
+                        <button type="button" onclick="cms_depreciation_quarter()" class="btn btn-default">Quý</button>
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="revenueAndExpenditure-main-body">
+        <div class="depreciation-main-body">
         </div>
     </div>
 </div>
