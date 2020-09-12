@@ -401,6 +401,42 @@
 </div>
 
 <!-- end reve -->
+<!-- Start Add Messenger-->
+<div class="modal fade" id="create-mes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Tạo mẫu tin nhắn</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" >
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="customer_email">Nội dung tin nhăn</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <textarea id="contentMes" style="width: 100%"></textarea>
+                            <span style="color: red; font-style: italic;" class="error error-customer_email"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm btn-crcust" onclick="add_mes('save');"><i
+                        class="fa fa-check"></i> Lưu
+                </button>
+                <button type="button" class="btn btn-primary " onclick="add_mes('saveandcontinue');"><i class="fa fa-floppy-o"></i> Lưu và tiếp tục
+                            </button>
+                <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal"><i
+                        class="fa fa-undo"></i> Bỏ qua
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Add Messenger-->
 <!-- start create supplier -->
 
 <div class="modal fade" id="create-sup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

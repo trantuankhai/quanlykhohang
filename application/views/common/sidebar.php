@@ -4,6 +4,9 @@
         <?php if (in_array(1, $user['group_permission'])) : ?>
             <li id="dashboard"><a href="dashboard"><i class="fa fa-gg-circle"></i><b>Trang Chủ</b></a></li>
         <?php endif; ?>
+        <?php if (in_array(1, $user['group_permission'])) : ?>
+            <li id="messenger-suggest"><a href="messenger"><i class="fa fa-commenting"></i><b>Messenger Suggest</b></a></li>
+        <?php endif; ?>
         <?php if (in_array(2, $user['group_permission'])) : ?>
             <li id="orders"><a href="orders"><i class="fa fa-shopping-cart"></i><b>Tạo đơn hàng</b></a></li>
         <?php endif; ?>

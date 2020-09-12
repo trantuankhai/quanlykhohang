@@ -1111,6 +1111,26 @@ CREATE TABLE `cms_depreciation` (
 ALTER TABLE `cms_depreciation`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
   COMMIT;
+  
+  
+  CREATE TABLE `cms_messenger` (
+  `ID` int(10) UNIQUE  NOT NULL  ,
+  `content_messenger` varchar(1000) ,
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_init` int(11) NOT NULL,
+  `user_upd` int(11) NOT NULL DEFAULT '0' ,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+ALTER TABLE `cms_messenger`
+  ADD PRIMARY KEY (`id`);
+  
+ALTER TABLE `cms_messenger`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  COMMIT;
+  
+INSERT INTO `cms_messenger`('xin chào anh','0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1);
  
 INSERT INTO `cms_templates` (`ID`, `id_produce`, `amount`, `total`, `reason`, `note`, `created`, `updated`, `user_init`, `user_upd`, `deleted`) VALUES(
 '1','SP00049','10','15000','die','notting','0000-00-00 00:00:00','1','1','1','1','1')

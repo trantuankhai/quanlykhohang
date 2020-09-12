@@ -1,10 +1,8 @@
 $(document).ready(function () {
     "use strict";
-
     if (window.location.pathname.indexOf('dashboard') !== -1) {
         $('li#dashboard').addClass('active');
     }
-
     if (window.location.pathname.indexOf('product') !== -1) {
         $('li#product').addClass('active');
         cms_product_search();
@@ -105,6 +103,10 @@ $(document).ready(function () {
         $('li#depreciation').addClass('active');
         csm_paging_depre(1);
     }
+
+    if (window.location.pathname.indexOf('messenger') !== -1) {
+        $('li#messenger-suggest').addClass('active');
+    }    
     if (window.location.pathname.indexOf('customer') !== -1) {
         $('li#customer').addClass('active');
         $('#customer_birthday').datetimepicker({
@@ -134,6 +136,7 @@ $(document).on('ready ajaxComplete', function () {
 function cms_func_common() {
     "use strict";
     cms_del_pro_order();
+    editAndSaveMes();
     fix_height_sidebar();
     cms_del_icon_click('.del-cys', '#search-box-cys');
     cms_del_icon_click('.del-mas', '#search-box-mas');
@@ -343,7 +346,41 @@ function cms_del_pro_order() {
         });
     });
 }
+editAndSaveMes =  (id)  =>{
+    $('body').on('click', '#editMes', function () {
 
+        $(this).hide();
+        $(this).prev('#saveMes').show();
+      //  console.log($(this).parent('td'));
+        $(this).parent('td').prevAll('#contentMes').hide();
+        $(this).parent('td').prevAll('#contentMesHidden').show();
+
+    //    contentMes
+
+    });
+    $('body').on('click', '#saveMes', function () {
+        var id = $(this).parent('td').prevAll('#idMes').text();
+        $(this).hide();
+        $(this).next('#editMes').show(); 
+        $(this).parent('td').prevAll('#contentMes').show();
+        $(this).parent('td').prevAll('#contentMesHidden').hide();
+        $(this).parent('td').prevAll('#contentMes').text($(this).parent('td').prevAll('#contentMesHidden').children().val());
+        $data = {
+            'data':{
+                'id':id,
+                'content_mes': $(this).parent('td').prevAll('#contentMesHidden').children().val()
+            }
+        }
+        var $param = {
+            'type': 'POST',
+            'url': 'messenger/cms_edit_mes',
+            'data': $data,
+            'callback': function (data) {
+            }
+        };
+    cms_adapter_ajax($param);
+    });  
+}
 /*
  * Process ajax request
  *
@@ -3307,7 +3344,6 @@ function add_reve_hihi($condition){
 }
 $('#create-reve').on('hidden.bs.modal', function (e) {
     if(flagControlModal == true){
-    console.log('close');
     setTimeout(function () {
         location.reload();
     }, 1000);
@@ -3436,3 +3472,139 @@ function cms_save_depreciation(type) {
 
 }
 }
+cms_autocomplete_messenger =() =>{
+    $keyword = $("#search-mes-box").val();
+    $data = {
+        'data' :{'keyword':$keyword}
+    }
+    var $param = {
+        'type': 'POST',
+        'url': 'messenger/cms_autocomplete_messenger/',
+        'data': $data,
+        'callback': function (data) {
+            console.log(data)
+        }
+    };
+    cms_adapter_ajax($param);
+}
+ cms_select_mes = ($id) => {
+  //  debugger;
+    var url = 'messenger/cms_select_mes/';
+   // if ($('tbody#pro_search_append tr').length != 0) {
+        $flag = 0;
+        $('tbody#pro_search_append tr').each(function () {
+            $id_temp = $(this).attr('data-id');
+            if ($id == $id_temp) {
+                // value_input = $(this).find('input.quantity_product_order');
+                // value_input.val(parseInt(value_input.val()) + 1);
+                // $flag = 1;
+               // cms_load_infor_order();
+                return false;
+            }
+        });
+        // if ($flag == 0) {
+        //     var $seq = parseInt($('td.seq').last().text()) + 1;
+        //     var $param = {
+        //         'type': 'POST',
+        //         'url': url,
+        //         'data': {'id': $id, 'seq': $seq},
+        //         'callback': function (data) {
+        //             $('#pro_search_append').append(data);
+        //            // cms_load_infor_order();
+        //         }
+        //     };
+        //     cms_adapter_ajax($param);
+        // }
+  //  } else {
+        var $param = {
+            'type': 'POST',
+            'url': url,
+            'data': {'id': $id, 'seq': 1},
+            'callback': function (data) {
+                $('#pro_search_append').append(data);
+             //   cms_load_infor_order();
+            }
+        };
+        cms_adapter_ajax($param);
+   // }
+}
+
+    $(function () {
+        if(window.location.href.indexOf('messenger')!= -1){
+        $("#search-mes-box").autocomplete({
+            minLength: 1,
+            source: 'messenger/cms_autocomplete_messenger/',
+            focus: function (event, ui) {
+                $("#search-mes-box").val(ui.item.content_messenger);
+                return false;
+            },
+            select: function (event, ui) {
+                console.log(ui.item.id);
+                cms_select_mes(ui.item.id);
+                $("#search-mes-box").val('');
+                return false;
+            }
+        }).keyup(function (e) {
+            if(e.which === 13) {
+               cms_autocomplete_messenger();
+                $("#search-mes-box").val('');
+                $(".ui-menu-item").hide();
+            }
+        })
+            .autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>")
+                .append("<div>" + item.id + " - " + item.content_messenger + "</div>")
+                .appendTo(ul);
+        };
+        }
+    });
+
+let flagControlModalMes = false;
+
+function add_mes($condition){
+    var curr = new Date; 
+    var first = curr.getDate();
+    firstday = new Date(curr.setDate(first)).toISOString().split('T')[0];
+
+   "use strict";
+    var contentMessenger = $.trim($('#contentMes').val());
+
+    if (contentMessenger != '') {
+        var $data = {
+            'data':{
+                'content_messenger':contentMessenger,
+                'created' : firstday,
+                'deleted':'0'
+            }
+        }
+         var $param = {
+            'type': 'POST',
+            'url': 'messenger/cms_add_mes',
+            'data': $data,
+            'callback': function (data) {
+     //           if (data > 0) {
+                    $('.ajax-error-ct').hide();
+                    $('.ajax-success-ct').html('Created Messenger Succsess').parent().fadeIn().delay(1000).fadeOut('slow');
+                    if($condition!='saveandcontinue'){
+                        $('.btn-close').trigger('click');
+                        location.reload();
+                    }else{
+                        flagControlModalMes = true;
+                        $('#contentMes').val('')
+                    }                
+           //     }
+                // else {
+                //     $('.ajax-error-ct').html('Error').parent().fadeIn().delay(1000).fadeOut('slow');
+                // }
+            }
+        };       
+    }
+        cms_adapter_ajax($param);
+    }
+$('#create-mes').on('hidden.bs.modal', function (e) {
+    if(flagControlModalMes == true){
+    setTimeout(function () {
+        location.reload();
+    }, 1000);
+    }
+});

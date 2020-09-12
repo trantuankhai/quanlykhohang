@@ -11,7 +11,7 @@
                     <div class="right-action text-right">
                         <div class="btn-groups">
                             <a href="/orders">
-                                <button type="button" class="btn btn-primary"">
+                                <button type="button" class="btn btn-primary">
 								<i class="fa fa-shopping-cart"></i> Đặt hàng
 								</button>
 							</a>
