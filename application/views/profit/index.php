@@ -32,7 +32,7 @@
     <div class="orders-content">
         <div class="product-sear panel-sear">
             <div class="form-group col-md-12 padd-0" style="padding-left: 5px;">
-                <div class="col-md-10 padd-0">
+                <div class="col-md-9 padd-0">
                     <div class="col-md-9 padd-0">
                         <div class="col-md-3 padd-0">
                             <select id="search-option-1" class="form-control">
@@ -81,11 +81,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 padd-0">
+                <div class="col-md-3 padd-0">
                     <div class="btn-group order-btn-calendar">
                         <button type="button" onclick="cms_profit_all_week()" class="btn btn-default">Tuần</button>
                         <button type="button" onclick="cms_profit_all_month()" class="btn btn-default">Tháng</button>
                         <button type="button" onclick="cms_profit_all_quarter()" class="btn btn-default">Quý</button>
+                        <button type="button" onclick="cms_profit_all()" class="btn btn-default">All</button>                        
                     </div>
                 </div>
             </div>

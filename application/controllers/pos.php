@@ -18,6 +18,7 @@ class Pos extends CI_Controller
 
         $data['seo']['title'] = "Phần mềm quản lý bán hàng";
         $data['data']['user'] = $this->auth;
+       // $data['accBalance'] = $this->auth['accBalance'];
         $group_id = $this->auth['group_id'];
          $user_id = $this->auth['id'];
         if($group_id !=3){

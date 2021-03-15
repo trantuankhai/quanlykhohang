@@ -135,8 +135,7 @@
                                     <label>NV bán hàng</label>
                                 </div>
                                 <div class="col-md-8">
-                                    <select class="form-control" id="sale_id">
-                                        <option value="">Chọn NV bán hàng</option>
+                                    <select class="form-control" disabled="disabled" id="sale_id">
                                         <?php foreach ($data as $item) { ?>
                                             <option
                                                 value="<?php echo $item['id']; ?>"><?php echo $item['display_name']; ?></option>

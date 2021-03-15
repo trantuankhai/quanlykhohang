@@ -80,7 +80,7 @@ class revenueAndExpenditure extends CI_Controller{
         $this->pagination->initialize($config);
         $_pagination_link = $this->pagination->create_links();
         $data['total_revenue'] = $total_revenue;
-        $data['auth_name'] = $this->auth['display_name'];
+        $data['id_us'] = $this->auth['id'];
         if ($page > 1 && ($total_revenue['quantity'] - 1) / ($page - 1) == 10)
             $page = $page - 1;
      //   $data['option'] = $option['option1'];
@@ -125,8 +125,12 @@ class revenueAndExpenditure extends CI_Controller{
                 echo $this->messages = "0";
             }else{
                 $this->db->trans_commit();
-                echo $this->messages = $id;
+                echo $this->messages = $input['reve_code'];
             }
+            // update balance
+           // $accountBalance = $this->db->select('accBalance')->from('users')->where('ID', $user_init)->get()->row_array();
+         //   $newAccBalance =  $accountBalance['accBalance'] - ($total_price - $input['discount']);
+          //  $this->db->where('ID', $user_init)->update('users',['accBalance' => $newAccBalance]);           
       }
  public function cms_del_reve($id)
     {
@@ -153,4 +157,34 @@ class revenueAndExpenditure extends CI_Controller{
             echo $this->messages = "1";
         }
     }
+  public function cms_ac_reve(){
+    $input = $this->input->post('data');
+    $re = $this->db->from('revenue_expenditure')->where('ID', $input['id'])->get()->row_array();
+    $this->db->trans_begin();
+    $user_init = $this->auth['id'];
+     if($input['status'] == '0'){
+      //  chap nhan
+      $this->db->where('ID',$input['id'])->update('revenue_expenditure', ['status' => 1,'user_upd' => $user_init,'user_accept' =>$user_init]);
+      // update tien
+      $accountBalance = $this->db->select('accBalance')->from('users')->where('id', $re['user_init'])->get()->row_array();
+      if($re['type_re'] ==2){
+              $newAccBalance =  $accountBalance['accBalance'] -  $input['total'];
+      }else if($re['type_re'] == 4){
+              $newAccBalance =  $accountBalance['accBalance'];
+      }else{
+        $newAccBalance =  $accountBalance['accBalance'] +  $input['total'];
+      }
+
+       $this->db->where('ID', $re['user_init'])->update('users',['accBalance' => $newAccBalance]);
+     }else{
+      $this->db->where('ID', $input['id'])->update('revenue_expenditure', ['status' => 2,'user_upd' => $user_init,'user_accept' =>$user_init]);
+     }
+         if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            echo $this->messages = "0";
+        } else {
+            $this->db->trans_commit();
+            echo $this->messages = $re['reve_code'];
+        }    
+  }
 }

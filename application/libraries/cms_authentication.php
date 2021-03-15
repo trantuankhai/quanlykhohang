@@ -16,7 +16,7 @@ class CMS_authentication
         if (CMS_Cookie::exists('user_logged' . CMS_PREFIX)) {
             $cookie = CMS_Cookie::get('user_logged' . CMS_PREFIX);
             $cookie = json_decode(CMS_Cookie::decode($cookie), true);
-            $user = $this->CI->db->select('id,username,password,salt,display_name,email,group_id,store_id')->where('username', $cookie['username'])->or_where('email', $cookie['username'])->from('users')->get()->row_array();
+            $user = $this->CI->db->select('id,username,password,salt,display_name,email,group_id,store_id,accBalance')->where('username', $cookie['username'])->or_where('email', $cookie['username'])->from('users')->get()->row_array();
             $group = $this->CI->db->select('id, group_permission, group_name')->where('id', $user['group_id'])->from('users_group')->get()->row_array();
             if (isset($user) && count($user)) {
                 if ($user['username'] == $cookie['username'] && $user['password'] == $cookie['password'] && $user['salt'] == $cookie['salt']) {
@@ -32,7 +32,8 @@ class CMS_authentication
                         'group_id' => $user['group_id'],
                         'group_name' => $group['group_name'],
                         'group_permission' => json_decode($group['group_permission'], true),
-                        'store_id' => $user['store_id']
+                        'store_id' => $user['store_id'],
+                        'accBalance' => $user['accBalance']
                     ];
                 }
             }

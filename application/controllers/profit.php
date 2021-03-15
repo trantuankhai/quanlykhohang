@@ -428,7 +428,7 @@ class Profit extends CI_Controller
                 }
             }
 
-            $config['base_url'] = 'cms_paging_revenue';
+            $config['base_url'] = 'cms_paging_profit';
             $config['total_rows'] = $total_orders['quantity'];
             $config['per_page'] = 10;
             $this->pagination->initialize($config);
@@ -1071,7 +1071,7 @@ class Profit extends CI_Controller
                 }
             }
 
-            $config['base_url'] = 'cms_paging_revenue';
+            $config['base_url'] = 'cms_paging_profit';
             $config['total_rows'] = $total_orders['quantity'];
             $config['per_page'] = 10;
             $this->pagination->initialize($config);
@@ -1720,7 +1720,7 @@ class Profit extends CI_Controller
                 }
             }
 
-            $config['base_url'] = 'cms_paging_revenue';
+            $config['base_url'] = 'cms_paging_profit';
             $config['total_rows'] = $total_orders['quantity'];
             $config['per_page'] = 10;
             $this->pagination->initialize($config);
@@ -2371,7 +2371,7 @@ class Profit extends CI_Controller
                 }
             }
 
-            $config['base_url'] = 'cms_paging_revenue';
+            $config['base_url'] = 'cms_paging_profit';
             $config['total_rows'] = $total_orders['quantity'];
             $config['per_page'] = 10;
             $this->pagination->initialize($config);
@@ -3014,7 +3014,7 @@ class Profit extends CI_Controller
                 }
             }
 
-            $config['base_url'] = 'cms_paging_revenue';
+            $config['base_url'] = 'cms_paging_profit';
             $config['total_rows'] = $total_orders['quantity'];
             $config['per_page'] = 10;
             $this->pagination->initialize($config);
@@ -3473,7 +3473,7 @@ class Profit extends CI_Controller
                 }
             }
 
-            $config['base_url'] = 'cms_paging_revenue';
+            $config['base_url'] = 'cms_paging_profit';
             $config['total_rows'] = $total_orders['quantity'];
             $config['per_page'] = 10;
             $this->pagination->initialize($config);

@@ -138,7 +138,7 @@
                                 <div class="col-md-8">
                                     <select disabled="disabled" id="" class="form-control">
                                         <option
-                                            value="1"><?php if (isset($data['user'])) echo $data['user']['display_name']; ?></option>
+                                            value="<?php if (isset($data['user'])) echo $data['user']['id']; ?>"><?php if (isset($data['user'])) echo $data['user']['display_name']; ?></option>
                                     </select>
                                 </div>
                             </div>

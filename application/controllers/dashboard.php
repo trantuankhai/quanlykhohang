@@ -19,6 +19,7 @@ class Dashboard extends CI_Controller
         if ($this->auth == null) $this->cms_common_string->cms_redirect(CMS_BASE_URL . 'authentication');
         $today = date('Y-m-d');
         $orders = $this->db->from('orders')->where(('deleted'), 0)->get()->result_array();
+        $data['inforUser'] = $this->db->from('users')->order_by('accBalance','desc')->where(('user_status'), 1)->get()->result_array();
         $tongtien = 0;
         $soluongsp = array();
         foreach ($orders as $item) {
@@ -42,6 +43,7 @@ class Dashboard extends CI_Controller
         // sap het hang
         $data['outOfStock'] = count($this->db->select('ID')->where(['prd_status' => 1, 'deleted' => 0])->where('prd_sls <= 3',NULL,FALSE)->from('products')->get()->result_array());
         $data['beyondTheNorm'] = count($this->db->select('ID')->where(['prd_status' => 1, 'deleted' => 0])->where('prd_sls >= 20',NULL,FALSE)->from('products')->get()->result_array());
+        // thong tin tai khoan
 
         $data['tongtien'] = $tongtien;
         $data['slsorders'] = count($orders);

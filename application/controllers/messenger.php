@@ -43,7 +43,7 @@ class Messenger extends CI_Controller
             <tr data-id="<?php echo $messenger['ID']; ?>">
                 <td id="idMes"><?php echo $messenger['id']; ?></td>
                 <td id="contentMes"><?php echo $messenger['content_messenger']; ?></td>
-                <td style="display: none" id="contentMesHidden"><input type="text" value="<?php echo $messenger['content_messenger']; ?>" ></td>
+                <td style="display: none" id="contentMesHidden"><textarea style="width: 100%;"><?php echo $messenger['content_messenger']; ?></textarea></td>
                 <td class="text-center"><i  id="saveMes" style="margin-right: 5px; display: none" class="fa fa-save"></i><i style="margin-right: 5px;"  id="editMes" class="fa fa-edit"></i><i class="fa fa-trash-o del-pro-order"></i></td>
             </tr>
             <?php

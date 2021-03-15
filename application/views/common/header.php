@@ -12,6 +12,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <?php if(isset($data['store'])){ ?>
+
                 <li>
                     <label style="margin: 13px 15px; color: white">
                         Cửa hàng
@@ -25,10 +26,16 @@
                     </select>
                 </li>
                 <?php } ?>
+                <li>
+                    <label style="margin: 13px 15px; color: white">
+                        <b style="font-size: 18px" >Số Dư Tài Khoản:</b> <b style="color: black;font-size: 18px" ><?php echo cms_encode_currency_format($user['accBalance']);?>
+                        </b><ins>đ</ins>
+                    </label>
+                </li>   
                 <li class="dropdown user-profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false"><span class="hello">Xin chào, </span><?php echo (isset($user)) ?
-                            $user['display_name'] : $user['username']; ?><span class="caret"></span></a>
+                       aria-expanded="false"><span class="hello">Xin chào, </span ><span id="nameUser"><?php echo (isset($user)) ?
+                            $user['display_name'] : $user['username']; ?></span><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="account"><i class="fa fa-user"></i>Tài khoản</a></li>
                         <li><a href="authentication/logout"><i class="fa fa-power-off"></i>Thoát</a></li>

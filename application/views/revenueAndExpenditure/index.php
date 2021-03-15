@@ -10,7 +10,7 @@
                 <div class="col-md-6">
                     <div class="right-action text-right">
                         <div class="btn-groups">
-                            <button type="button" data-toggle="modal" data-target="#create-reve"class="btn btn-primary" ><i class="fa fa-plus"></i> Tao phiếu thu chi
+                            <button type="button" data-toggle="modal" data-target="#create-reve"class="btn btn-primary" ><i class="fa fa-plus"></i> Tao Phiếu Thu Và Chi
                             </button>
                             <button type="button" class="btn btn-success"><i class="fa fa-download"></i> Xuất Excel</button>
                         </div>
@@ -30,10 +30,6 @@
                     <div class="col-md-4">
                         <select class="form-control" >
                           <option value="">Chọn người chi</option>
-<!--                                        <?php foreach ($data as $item) { ?>
-                                            <option
-                                                value="<?php echo $item['id']; ?>"><?php echo $item['display_name']; ?></option>
-                                        <?php } ?> -->
                         </select>
                      </div>
                     <div class="col-md-5 padd-0" style="padding-left: 5px;">

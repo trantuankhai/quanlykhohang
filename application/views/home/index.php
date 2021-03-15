@@ -133,9 +133,18 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-align-left"></i>Biểu đồ doanh số tuần</div>
+                    <div class="panel-heading"><i class="fa fa-align-left"></i>Biểu đồ thu chi</div>
                     <div class="panel-body">
-                        Loading ...
+            <div class="widget-body">
+                <div class="row">
+                    <?php foreach ($inforUser as $item) {
+                       echo '<div class="info col-xs-7">'.$item['display_name'].'</div><div
+                        class="info col-xs-5 data text-right"><b>'. cms_encode_currency_format($item['accBalance']).'</b></div>';
+                        }  
+                    ?>
+
+                </div>
+            </div>
                     </div>
                 </div>
             </div>

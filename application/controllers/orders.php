@@ -534,11 +534,12 @@ class Orders extends CI_Controller
         if ($this->auth == null) $this->cms_common_string->cms_redirect(CMS_BASE_URL . 'backend');
         $group_id = $this->auth['group_id'];
          $user_id = $this->auth['id'];
-        if($group_id !=3){
-           $data['data'] = $this->db->from('users')->where('user_status', '1')->get()->result_array(); 
-        }else{
+      //   $data['data']['user'] =  $this->auth['users'];
+        // if($group_id !=3){
+        //    $data['data'] = $this->db->from('users')->where('user_status', '1')->get()->result_array(); 
+        // }else{
             $data['data'] = $this->db->from('users')->where('ID', $user_id)->get()->result_array();
-        } 
+     //   } 
         $this->load->view('ajax/orders/sell_bill', isset($data) ? $data : null);
     }
 
@@ -764,7 +765,12 @@ class Orders extends CI_Controller
                     $report['stock'] = $stock['quantity'];
                     $report['total_money'] = ($report['price']*$report['output'])-$report['discount'];
                     $this->db->insert('report', $report);
+
                 }
+            // update balance
+            $accountBalance = $this->db->select('accBalance')->from('users')->where('ID', $user_init)->get()->row_array();
+            $newAccBalance =  $accountBalance['accBalance'] + ($total_price-$order['coupon']+$order['order_bonus']);
+            $this->db->where('ID', $user_init)->update('users',['accBalance' => $newAccBalance]);               
             }
 
             if ($this->db->trans_status() === FALSE) {

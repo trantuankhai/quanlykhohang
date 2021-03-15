@@ -205,7 +205,7 @@ class Import extends CI_Controller
                     $product = $this->db->select('prd_sls,prd_origin_price')->from('products')->where('ID', $item['id'])->get()->row_array();
                     $sls['prd_sls'] = $product['prd_sls'] + $item['quantity'];
                     $total_price += ($item['price'] * $item['quantity']);
-                    $total_quantity += $item['quantity'];
+                    $total_quantity += $item['  '];
                     if($item['price']!=$product['prd_origin_price']){
                         $sls['prd_origin_price'] = (($product['prd_origin_price']*$product['prd_sls'])+($item['quantity']*$item['price']))/$sls['prd_sls'];
                     }
@@ -247,6 +247,10 @@ class Import extends CI_Controller
 
             $this->db->insert('input', $input);
             $id = $this->db->insert_id();
+            // update balance
+            $accountBalance = $this->db->select('accBalance')->from('users')->where('ID', $user_init)->get()->row_array();
+            $newAccBalance =  $accountBalance['accBalance'] - ($total_price - $input['discount']);
+            $this->db->where('ID', $user_init)->update('users',['accBalance' => $newAccBalance]);
 
             if ($input['input_status'] == 1){
                 $temp= array();

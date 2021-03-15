@@ -20,7 +20,7 @@ class Account extends CI_Controller
         $store_id = $this->db->select('store_id')->from('users')->where('id', $this->auth['id'])->limit(1)->get()->row_array();
         $data['data']['store_id'] = $store_id['store_id'];
         $data['data']['user'] = $this->auth;
-        $data['template'] = 'account/info';
+        $data['template'] = 'account/info'; 
         $this->load->view('layout/index', isset($data) ? $data : null);
     }
 
@@ -42,7 +42,7 @@ class Account extends CI_Controller
         if ($this->_check_password($user_id, $data['oldpass'])) {
             $update['salt'] = $this->cms_common_string->random(69, true);
             $update['password'] = $this->cms_common_string->password_encode($data['newpass'], $update['salt']);
-            //$this->db->where('id', $user_id)->update('users', $update);
+            $this->db->where('id', $user_id)->update('users', $update);
             echo $this->messages = 1;
         }else
             echo $this->messages = 0;

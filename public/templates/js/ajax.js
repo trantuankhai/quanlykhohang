@@ -3063,6 +3063,22 @@ function cms_set_current_month() {
     $('#search-date-to').val(lastday);
 }
 
+function cms_set_all() { 
+    var curr = new Date; 
+    var first = curr.getDate();
+    firstday = new Date(curr.setDate(first)).toISOString().split('T')[0]; 
+    $('#search-date-from').val('2020-01-01');
+    $('#search-date-to').val(firstday);
+}
+function cms_profit_all_search() { 
+    var curr = new Date; 
+    var first = curr.getDate();
+    firstday = new Date(curr.setDate(first)).toISOString().split('T')[0]; 
+    $('#search-date-from').val('2020-01-01');
+    $('#search-date-to').val(firstday);
+}
+
+
 function cms_set_current_quarter() {
     var d = new Date();
     var quarter = Math.floor((d.getMonth() / 3));
@@ -3112,7 +3128,10 @@ function cms_revenue_all_month() {
     cms_set_current_month();
     cms_paging_revenue(1);
 }
-
+cms_revenue_all = () =>{
+    cms_set_all();
+    cms_paging_revenue(1);
+}
 function cms_revenue_all_quarter() {
     cms_set_current_quarter();
     cms_paging_revenue(1);
@@ -3131,6 +3150,11 @@ function cms_profit_all_month() {
 function cms_profit_all_quarter() {
     cms_set_current_quarter();
     cms_paging_profit(1);
+}
+
+cms_profit_all = () =>{
+    cms_profit_all_search();
+    cms_paging_profit(1); 
 }
 
 function cms_edit_usitem(id) {
@@ -3285,6 +3309,32 @@ function validateForm($name,$date,$total){
     }
     return flag;
 }
+sendNotiZalo = ($content) =>{
+        var listQuanTam = ["7318644390263909642","4971605853001720677"];
+        listQuanTam.forEach(function(item){
+                    var dataJosn = {
+              "recipient": {
+                "user_id": item
+              },
+              "message": {
+                "text":$content
+              }
+            };
+                $.ajax({
+                    url : "https://openapi.zalo.me/v2.0/oa/message?access_token=IX3SSwZUBXH74jnmhDml4q4SrtEeoYzq91_MIusDHLSx7-bdWj5iL15XvKk0qnP0DXA5OwQwTqWi4VH1evnjHq0gs5NVgbWoKch8ASVeVZPsAVKFdP1n20WY_ccNerSD7ntiAVME6WjaDEzhquz5S3WeoKU6YazJ9K70MAxQMqK-4-r_hO5fOX8h_5w8eNveOZoCOEYn1ND74PvZyPC6SMGDfcBglpvvHZ-bRTYG7NzeMkb4uiXtSdHoqXkMs60X5qZ55fh0NJOGNF1Lclm1NJj5zaU9vN91s_Z1KQB6AHC",
+                    type : "post",
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data :JSON.stringify(dataJosn),
+                    success : function (result){
+                      //console.log(result);
+                    },
+                    error : function(error){
+                       // console.log(error);
+                    }
+                });            
+            });
+}
 let flagControlModal = false;
 function add_reve_hihi($condition){
     var curr = new Date; 
@@ -3297,7 +3347,8 @@ function add_reve_hihi($condition){
     var $date = $.trim($('#date_reve').val());
     var $total = $.trim($('#total_reve').val());
     var $note_reve = $.trim($('#note_reve').val());
-
+    var $nameUser = $('#nameUser').text();
+    var $type = $.trim($('#type').val());
     var flag = validateForm($name,$date,$total);
     if (flag == true) {
                 var $data = {
@@ -3311,7 +3362,8 @@ function add_reve_hihi($condition){
                 'updated':firstday,
                 'user_init':'1',
                 'user_upd': '1',
-                'deleted':'0'
+                'deleted':'0',
+                'type_re':$type
             }
         };
         var $param = {
@@ -3319,10 +3371,21 @@ function add_reve_hihi($condition){
             'url': 'revenueAndExpenditure/add_vere',
             'data': $data,
             'callback': function (data) {
-                if (data > 0) {
-                    
+                if (data != 0) {
+                var textType = "";
+                if($type == 1){
+                    textType = "tạo phiếu thu";
+                }else if($type == 2){
+                    textType = "tạo phiếu chi";
+                }else if($type == 3){
+                    textType = "Rút Tiền";
+                }else{
+                    textType = "Thanh Toán Chuyển Khoản"
+                }
+                    var $content = "Có môt yêu cầu ["+textType + "] số ["+data+"] cần được xét duyệt: " + " Người gửi: ["  +$nameUser.toUpperCase() +"], Số tiền: [" +$total.toUpperCase() +"], Lý do: [" +$name.toUpperCase()+ ",] Ghi chú: ["+ $note_reve.toUpperCase()+"]";
+                    sendNotiZalo($content);
                     $('.ajax-error-ct').hide();
-                    $('.ajax-success-ct').html('Bạn đã tạo mới khách hàng thành công!').parent().fadeIn().delay(1000).fadeOut('slow');
+                    $('.ajax-success-ct').html('Oke rồi !').parent().fadeIn().delay(1000).fadeOut('slow');
                     if($condition!='saveandcontinue'){
                         $('.btn-close').trigger('click');
                         location.reload();
@@ -3335,7 +3398,7 @@ function add_reve_hihi($condition){
                         $('#note_reve').val('');
                     }                
                 }else {
-                    $('.ajax-error-ct').html('Mã khách hàng đã tồn tại, Vui lòng chọn mã khác').parent().fadeIn().delay(1000).fadeOut('slow');
+                    $('.ajax-error-ct').html('Lỗi rồi. Liên hệ ADMIN nhé').parent().fadeIn().delay(1000).fadeOut('slow');
                 }
             }
         };
@@ -3487,6 +3550,36 @@ cms_autocomplete_messenger =() =>{
     };
     cms_adapter_ajax($param);
 }
+accepttt = ($id,$status,$total) => {
+    var $data =  {
+        'data':{'id':$id,'status':$status,'total':$total}
+    }
+        var $param = {
+            'type': 'POST',
+            'url': 'revenueAndExpenditure/cms_ac_reve/',
+            'data': $data,
+            'callback': function (data) {
+                if (data != '0') {
+                    var $result = '';
+                    if($status=='0'){
+                        $result = "được chấp thuận";
+                    }else{
+                        $result = "bị từ chối";
+                    }
+                    var  $content = "Yêu cầu ["+data+"]"+" đã " +$result;
+                   sendNotiZalo($content);
+                    $('.ajax-success-ct').html('Oke.').parent().fadeIn().delay(1000).fadeOut('slow');
+                    setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                } else {
+                    $('.ajax-error-ct').html('Oops! This system is errors! please try again.').parent().fadeIn().delay(1000).fadeOut('slow');
+                }
+            }
+        };
+        cms_adapter_ajax($param);
+
+}
  cms_select_mes = ($id) => {
   //  debugger;
     var url = 'messenger/cms_select_mes/';
@@ -3608,3 +3701,6 @@ $('#create-mes').on('hidden.bs.modal', function (e) {
     }, 1000);
     }
 });
+browseKCFinder = ($var1, $var2) =>{
+
+}
