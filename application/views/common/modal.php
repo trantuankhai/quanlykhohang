@@ -411,7 +411,80 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="create-finance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Tạo khoản chi</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" >
+                    <div class="form-group" style="display: none;">
+                        <div class="col-sm-3">
+                            <label for="customer_name">Mã Phiếu</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" id="finance_code" name="customer_code" class="form-control" value=""
+                                   placeholder="Mã(tự sinh nếu bỏ trống)">
+                            <span style="color: red; font-style: italic;" class="error error-customer_code"></span>
+                        </div>
+                    </div>                   
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_name">Lý Do</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" id="finance_reason" name="customer_name" class="form-control " value=""
+                                   placeholder="VD: Tiền thuê mặt bằng (bắt buộc)">
+                            <span style="color: red; font-style: italic;" class="error error_reve_name"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_phone">Ngày</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="date" id="finance_date" name="customer_phone"
+                                   class="form-control" value="" placeholder="">
+                            <span style="color: red; font-style: italic;" class="error error-reve-date"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_phone">Số tiền</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" id="finance_total" name="customer_phone"
+                                   class="form-control txtMoney" value="" placeholder="">
+                            <span style="color: red; font-style: italic;" class="error error-reve-total"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label for="customer_email">Ghi chú</label>
+                        </div>
+                        <div class="col-sm-9">
+                            <textarea name="customer_email"  id="finance_note" style="width: 100%;height: 115px;"></textarea>
+                            <span style="color: red; font-style: italic;" class="error error-customer_email"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm btn-crcust" onclick="add_finance_hihi('save');"><i
+                        class="fa fa-check"></i> Lưu
+                </button>
+                <button type="button" class="btn btn-primary " onclick="add_finance_hihi('saveandcontinue');"><i class="fa fa-floppy-o"></i> Lưu và tiếp tục
+                            </button>
+                <button type="button" class="btn btn-default btn-sm btn-close" data-dismiss="modal"><i
+                        class="fa fa-undo"></i> Bỏ qua
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- end reve -->
 <!-- start  add Balance 
 <div class="modal fade" id="addBalance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

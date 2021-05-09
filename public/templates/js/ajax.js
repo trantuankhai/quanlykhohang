@@ -51,6 +51,12 @@ $(document).ready(function () {
         cms_paging_reve(1);
     }
     // End Show Data Screen thu chi    
+
+    if (window.location.pathname.indexOf('finance') !== -1) {
+        $('li#finance').removeClass('active');
+        $('li#finance').addClass('active');
+        cms_paging_finance(1);
+    }
     if (window.location.pathname.indexOf('profit') !== -1) {
         $('.input-daterange').datepicker({
             format: "yyyy-mm-dd",
@@ -3053,6 +3059,14 @@ function cms_set_last_date(){
     $('#search-date-from').val(firstday);
     $('#search-date-to').val(lastday);
 }
+function cms_set_date(){
+    var curr = new Date; 
+    var first = curr.getDate();
+    firstday = new Date(curr.setDate(first)).toISOString().split('T')[0]; 
+    lastday = new Date(curr.setDate(first)).toISOString().split('T')[0];
+    $('#search-date-from').val(firstday);
+    $('#search-date-to').val(lastday);
+}
 function cms_set_current_month() {
     var date = new Date;
     var first = new Date(date.getFullYear(), date.getMonth(), 2);
@@ -3255,6 +3269,29 @@ function cms_paging_reve($page){
     cms_adapter_ajax($param);
 
 }
+cms_paging_finance = ($page) =>{
+    var elementSearchBox =  $('#input-search');
+    if(elementSearchBox.length ==0){
+        $keyword = $('#order-search').val();
+    }else{
+        $keyword = elementSearchBox.val()
+    }
+    $option1 = $('#search-option-1').val();
+    //$option2 = $('#search-option-2').val();
+    //$option3 = $('#search-option-3').val();
+    $date_from = $('#search-date-from').val();
+    $date_to = $('#search-date-to').val();
+    $data = {'data': {'option1': $option1, 'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
+    var $param = {
+        'type': 'POST',
+        'url': 'finance/cms_paging_finance/' + $page,
+        'data': $data,
+        'callback': function (data) {
+            $('.finance-main-body').html(data);
+        }
+    };
+    cms_adapter_ajax($param);
+}
 csm_paging_depre = ($page) =>{
         var elementSearchBox =  $('#input-search');
     if(elementSearchBox.length ==0){
@@ -3383,7 +3420,7 @@ function add_reve_hihi($condition){
                     textType = "Thanh Toán Chuyển Khoản"
                 }
                     var $content = "Có môt yêu cầu ["+textType + "] số ["+data+"] cần được xét duyệt: " + " Người gửi: ["  +$nameUser.toUpperCase() +"], Số tiền: [" +$total.toUpperCase() +"], Lý do: [" +$name.toUpperCase()+ ",] Ghi chú: ["+ $note_reve.toUpperCase()+"]";
-                    sendNotiZalo($content);
+               //     sendNotiZalo($content);
                     $('.ajax-error-ct').hide();
                     $('.ajax-success-ct').html('Oke rồi !').parent().fadeIn().delay(1000).fadeOut('slow');
                     if($condition!='saveandcontinue'){
@@ -3405,6 +3442,75 @@ function add_reve_hihi($condition){
         cms_adapter_ajax($param);
     }
 }
+
+function add_finance_hihi($condition){
+    var curr = new Date; 
+    var first = curr.getDate();
+    firstday = new Date(curr.setDate(first)).toISOString().split('T')[0];
+
+   "use strict";
+    var $code = $.trim($('#finance_code').val());
+    var $name = $.trim($('#finance_reason').val());
+    var $date = $.trim($('#finance_date').val());
+    var $total = $.trim($('#finance_total').val());
+    var $note_finance = $.trim($('#finance_note').val());
+  //  var $nameUser = $('#nameUser').text();
+  //  var $type = $.trim($('#type').val());
+    var flag = validateForm($name,$date,$total);
+    if (flag == true) {
+                var $data = {
+            'data': {
+                'id': $code,
+                'reason': $name,
+                'total':$total.split(",").join(""),
+                'note': $note_finance,
+                'created': $date,
+                'updated':firstday,
+                'user_init':'1',
+                'user_upd': '1',
+                'deleted':'0'
+            }
+        };
+        var $param = {
+            'type': 'POST',
+            'url': 'finance/add_finance',
+            'data': $data,
+            'callback': function (data) {
+                if (data != 0) {
+                // var textType = "";
+                // if($type == 1){
+                //     textType = "tạo phiếu thu";
+                // }else if($type == 2){
+                //     textType = "tạo phiếu chi";
+                // }else if($type == 3){
+                //     textType = "Rút Tiền";
+                // }else{
+                //     textType = "Thanh Toán Chuyển Khoản"
+                // }
+               //     var $content = "Có môt yêu cầu ["+textType + "] số ["+data+"] cần được xét duyệt: " + " Người gửi: ["  +$nameUser.toUpperCase() +"], Số tiền: [" +$total.toUpperCase() +"], Lý do: [" +$name.toUpperCase()+ ",] Ghi chú: ["+ $note_reve.toUpperCase()+"]";
+               //     sendNotiZalo($content);
+                    $('.ajax-error-ct').hide();
+                    $('.ajax-success-ct').html('Oke rồi !').parent().fadeIn().delay(1000).fadeOut('slow');
+                    if($condition!='saveandcontinue'){
+                        $('.btn-close').trigger('click');
+                        location.reload();
+                    }else{
+                        flagControlModal = true;
+                        $('#finance_code').val('');
+                        $('#finance_reason').val('');
+                        $('#finance_total').val('');
+                        $('#total_reve').val('');
+                        $('#note_reve').val('');
+                    }                
+                }else {
+                    $('.ajax-error-ct').html('Lỗi rồi. Liên hệ ADMIN nhé').parent().fadeIn().delay(1000).fadeOut('slow');
+                }
+            }
+        };
+        cms_adapter_ajax($param);
+    }
+}
+
 $('#create-reve').on('hidden.bs.modal', function (e) {
     if(flagControlModal == true){
     setTimeout(function () {
@@ -3460,6 +3566,22 @@ cms_depreciation_quarter = () =>{
     cms_set_current_quarter();
     csm_paging_depre(1);
     
+}
+function cms_finance_day() {
+    cms_set_date();
+    cms_paging_finance(1);
+}
+function cms_finance_month() {
+    cms_set_current_month();
+    cms_paging_finance(1);
+}
+function cms_finance_week() {
+    cms_set_current_week();
+    cms_paging_finance(1);
+}
+function cms_finance_quarter() {
+    cms_set_current_quarter();
+    cms_paging_finance(1);
 }
 $('#create-depreciation').click(function(event) {
     $('.product-sear').css('display', 'none');
@@ -3567,7 +3689,7 @@ accepttt = ($id,$status,$total) => {
                         $result = "bị từ chối";
                     }
                     var  $content = "Yêu cầu ["+data+"]"+" đã " +$result;
-                   sendNotiZalo($content);
+                 //  sendNotiZalo($content);
                     $('.ajax-success-ct').html('Oke.').parent().fadeIn().delay(1000).fadeOut('slow');
                     setTimeout(function () {
                             location.reload();

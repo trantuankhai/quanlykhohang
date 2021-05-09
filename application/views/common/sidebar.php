@@ -29,7 +29,10 @@
             <li id="revenueAndExpenditure"><a href="revenueAndExpenditure"><i class="fa fa-file-text"></i><b>Thu chi</b></a></li>
         <?php endif; ?>
                 <?php if (in_array(8, $user['group_permission'])) : ?>
-            <li id="depreciation"><a href="depreciation"><i class="fa fa-file-text"></i><b>Khấu hao</b></a></li>
+            <li id="depreciation"><a href="depreciation"><i class="fa fa-bug"></i><b>Khấu hao</b></a></li>
+        <?php endif; ?>
+         <?php if (in_array(1, $user['group_permission'])) : ?>
+            <li id="finance"><a href="finance"><i class="fa fa-money"></i><b>Tài Chính Cá Nhân</b></a></li>
         <?php endif; ?>
         <?php if (in_array(9, $user['group_permission'])) : ?>
             <li id="profit"><a href="profit"><i class="fa fa-usd"></i><b> Lợi nhuận</b></a></li>

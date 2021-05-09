@@ -19,11 +19,16 @@
                     </label>
                 </li>
                 <li style="border-right: 1px solid #E1E1E1; padding-right: 15px;">
-                    <select id="store-id" class="form-control" style="margin: 8px auto">
-                        <?php foreach ($data['store'] as $key => $item) :?>
-                            <option <?php if($item['ID']==$data['store_id']) echo 'selected '; ?> value="<?php echo $item['ID']; ?>"><?php echo $item['stock_name']; ?></option>
-                        <?php endforeach;?>
-                    </select>
+                    <?php
+                    if($user['group_id']==1 || $user['group_id']==2 ||$user['group_id']==3){
+                        echo'<select id="store-id" class="form-control" style="margin: 8px auto">';
+                        foreach ($data['store'] as $key => $item) :
+                            echo'<option value="'.$item['ID'].'"">'.$item['stock_name'].'</option>';
+                        endforeach;
+                        echo' </select>';
+                    }
+                    ?>
+
                 </li>
                 <?php } ?>
                 <li>
