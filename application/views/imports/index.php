@@ -23,7 +23,14 @@
     <div class="orders-content">
         <div class="product-sear panel-sear">
             <div class="form-group col-md-3 padd-0">
-                <input type="text" class="form-control" id="input-search" placeholder="Nhập mã phiếu nhập để tìm kiếm">
+                <input id="input-search" type="hidden" name="">
+                <select class="form-control" id="select-pl-imp">
+                    <option value="">Chọn người chi</option>
+                      <?php foreach ($inforUser as $item) {
+                        echo '<option value="'.$item['id'].'">'.$item['display_name'].'</option>';
+                        }  
+                        ?>  
+                </select>
             </div>
             <div class="form-group col-md-9 padd-0" style="padding-left: 5px;">
                 <div class="col-md-9 padd-0">
@@ -54,6 +61,7 @@
                         <button type="button" onclick="cms_input_week()" class="btn btn-default">Tuần</button>
                         <button type="button" onclick="cms_input_month()" class="btn btn-default">Tháng</button>
                         <button type="button" onclick="cms_input_quarter()" class="btn btn-default">Quý</button>
+                        <button type="button" onclick="cms_input_year()" class="btn btn-default">Năm</button>
                     </div>
                 </div>
             </div>

@@ -365,14 +365,15 @@ class Product extends CI_Controller
 
          $this->db->where(['store_id' => $this->auth['store_id'], 'product_id' => $id])->update('inventory', ['quantity' => $data['prd_sls'],'user_upd' => $this->auth['id']]);
 
-     //   $inventory = ['quantity'=>$data['prd_sls']]; 
-      //  $this->db->where('product_id', $id)->update('inventory', $inventory);
+       $inventory = ['quantity'=>$data['prd_sls']]; 
+       $this->db->where('product_id', $id)->update('inventory', $inventory);
 
         echo $this->messages = "1";
     }
 
-    public function cms_paging_product($page = 1)
+    public function cms_paging_product($page)
     {
+         if($page == 'undefined') $page = 1;
         $option = $this->input->post('data');
         $total_prd = 0;
         $config = $this->cms_common->cms_pagination_custom();

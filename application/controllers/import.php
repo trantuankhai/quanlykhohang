@@ -126,7 +126,7 @@ class Import extends CI_Controller
     {
         if ($this->auth == null || !in_array(5, $this->auth['group_permission']))
             $this->cms_common_string->cms_redirect(CMS_BASE_URL . 'backend');
-
+        $data['inforUser'] = $this->db->from('users')->order_by('accBalance','desc')->where(('user_status'), 1)->get()->result_array();
         $data['seo']['title'] = "Phần mềm quản lý bán hàng";
         $data['data']['user'] = $this->auth;
         $data['template'] = 'imports/index';
@@ -179,7 +179,7 @@ class Import extends CI_Controller
 
     public function cms_save_import($store_id)
     {
-        if($this->auth['store_id'] == $store_id){
+        //if($this->auth['store_id'] == $store_id){
             $input = $this->input->post('data');
             $detail_input_temp = $input['detail_input'];
             if (empty($input['input_date'])) {
@@ -284,8 +284,10 @@ class Import extends CI_Controller
                 $this->db->trans_commit();
                 echo $this->messages = $id;
             }
-        }else
-            echo $this->messages = "0";
+        // }else{
+
+        //     echo $this->messages = "0";
+        // }
     }
 
     public function cms_autocomplete_products()
@@ -360,7 +362,12 @@ class Import extends CI_Controller
 
     public function cms_paging_input($page = 1)
     {
+        if($page =='undefined')$page=1;
         $option = $this->input->post('data');
+        $DK = '1=1';
+        if($option['option2'] != ''){
+            $DK = 'user_init = '.$option['option2'];
+        }
         $total_imports = 0;
         $config = $this->cms_common->cms_pagination_custom();
         $option['date_to'] = date('Y-m-d', strtotime($option['date_to'] . ' +1 day'));
@@ -373,6 +380,7 @@ class Import extends CI_Controller
                     ->where('input_date >=',$option['date_from'])
                     ->where('input_date <=',$option['date_to'])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->row_array();
                 $data['_list_imports'] = $this->db
@@ -383,6 +391,7 @@ class Import extends CI_Controller
                     ->where('input_date >=',$option['date_from'])
                     ->where('input_date <=',$option['date_to'])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->result_array();
             }else{
@@ -391,6 +400,7 @@ class Import extends CI_Controller
                     ->from('input')
                     ->where(['deleted' => 0])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->row_array();
                 $data['_list_imports'] = $this->db
@@ -399,6 +409,7 @@ class Import extends CI_Controller
                     ->order_by('created', 'desc')
                     ->where(['deleted' => 0])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->result_array();
             }
@@ -411,6 +422,7 @@ class Import extends CI_Controller
                     ->where('input_date >=',$option['date_from'])
                     ->where('input_date <=',$option['date_to'])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->row_array();
                 $data['_list_imports'] = $this->db
@@ -421,6 +433,7 @@ class Import extends CI_Controller
                     ->where('input_date >=',$option['date_from'])
                     ->where('input_date <=',$option['date_to'])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->result_array();
             }else{
@@ -429,6 +442,7 @@ class Import extends CI_Controller
                     ->from('input')
                     ->where(['deleted' => 1])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->row_array();
                 $data['_list_imports'] = $this->db
@@ -437,6 +451,7 @@ class Import extends CI_Controller
                     ->order_by('created', 'desc')
                     ->where(['deleted' => 1])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->result_array();
             }
@@ -449,6 +464,7 @@ class Import extends CI_Controller
                     ->where('input_date >=',$option['date_from'])
                     ->where('input_date <=',$option['date_to'])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->row_array();
                 $data['_list_imports'] = $this->db
@@ -459,6 +475,7 @@ class Import extends CI_Controller
                     ->where('input_date >=',$option['date_from'])
                     ->where('input_date <=',$option['date_to'])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->result_array();
             }else{
@@ -466,6 +483,7 @@ class Import extends CI_Controller
                     ->from('input')
                     ->where(['deleted' => 0,'lack >' =>0])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->row_array();
                 $data['_list_imports'] = $this->db
@@ -474,6 +492,7 @@ class Import extends CI_Controller
                     ->order_by('created', 'desc')
                     ->where(['deleted' => 0,'lack >' =>0])
                     ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->where($DK, NULL, FALSE)
                     ->get()
                     ->result_array();
             }

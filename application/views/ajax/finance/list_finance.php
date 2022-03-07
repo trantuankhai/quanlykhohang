@@ -1,12 +1,13 @@
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th></th>
         <th class="text-center">ID</th>
+        <th class="text-center">Ngày Chi</th>
         <th class="text-center">Lý Do</th>
         <th class="text-center">Tổng Tiền</th>
+        <th class="text-center">Loại</th>
         <th class="text-center">Ghi Chú</th>
-        <th class="text-center">Ngày Chi</th>
+
         <th class="text-center"><label class="checkbox" style="margin: 0;"><input type="checkbox"style="width: 15px; height: 15px;"></span></label></th>
     </tr>
     </thead>
@@ -16,12 +17,18 @@
           //  $list_products = json_decode($item['detail_input'], true);
             ?>
             <tr>
-                <td></td>
                 <td><?php echo $item['ID']?></td>
+                 <td><?php echo $item['created'];?></td>
                 <td><?php echo $item['reason']; ?></td>
                 <td><?php echo cms_encode_currency_format($item['total']);?></td>
-                <td><?php echo $item['note'];?></td>
-                <td><?php echo $item['created'];?></td>
+                 <td>             <?php 
+                if($item['type'] == '1'){echo'<p style="color:green">Thiết yếu</p>';}
+                else if($item['type']=='2' ){echo'<p style="color:yellow">Chưa cần thiết<p>';}
+                else if($item['type'] =='3'){echo'<p style="color:red">Lãng phí<p>';}
+                else{echo 'chưa xác định';} 
+                ;?>
+                    </td> 
+                <td><?php echo $item['note'];?></td>             
                 <td class="text-center" style="background: #fff;">
                     <i id="print"  title="In"
                        class="fa fa-print blue"

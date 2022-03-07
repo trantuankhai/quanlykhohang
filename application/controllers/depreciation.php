@@ -110,6 +110,7 @@ class Depreciation extends CI_Controller{
  			$product = $this->db->from('products')->where('prd_code', $input['id_produce'])->get()->row_array();
           	$this->db->where('prd_code', $input['id_produce'])->update('products', ['prd_sls' => $product['prd_sls'] - $input['amount']]);
             $inventory_quantity = $this->db->select('quantity')->from('inventory')->where(['store_id' => $store_id, 'product_id' => $product['ID']])->get()->row_array();
+            
                if (!empty($inventory_quantity)) {
                  $this->db->where(['store_id' => $store_id, 'product_id' => $product['ID']])->update('inventory', ['quantity' => $inventory_quantity['quantity'] - $input['amount'], 'user_upd' => $user_init]);
                } else {

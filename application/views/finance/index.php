@@ -26,7 +26,17 @@
                 <input type="text" class="form-control" id="input-search" placeholder="Nhập mã phiếu nhập để tìm kiếm">
             </div>
             <div class="form-group col-md-9 padd-0" style="padding-left: 5px;">
-                <div class="col-md-9 padd-0">
+                <div class="col-md-3 padd-0">
+                 <div class="col-md-12">
+                    <select class="form-control" id="typeFinace">
+                          <option value="0">Loại chi tiêu</option>
+                          <option value="1">Thiết yếu</option>  
+                          <option value="2">Chưa thiết yếu</option>
+                          <option value="3">Lãng phí</option>
+                     </select>
+                </div>
+                </div>                
+                <div class="col-md-6 padd-0">
                     <div class="col-md-4">
                      </div>
                     <div class="col-md-5 padd-0" style="padding-left: 5px;">

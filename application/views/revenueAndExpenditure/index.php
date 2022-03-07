@@ -23,15 +23,48 @@
     <div class="revenueAndExpenditure-content">
 	<div class="product-sear panel-sear">
             <div class="form-group col-md-3 padd-0">
-                <input type="text" class="form-control" id="input-search" placeholder="Nhập mã phiếu nhập để tìm kiếm">
+                 <div class="col-md-6">
+                    <select class="form-control" id="selectPhieu">
+                          <option value="">Chọn loại phiếu</option>
+                          <option value="2">Phiếu chi</option>
+                          <option value="1">Phiếu thu</option>
+                          <option value="3">Rút tiền</option>
+                          <option value="4">Thanh toán chuyển khoản</option>
+                     </select>
+                </div>
+                 <div class="col-md-6">
+                    <select class="form-control" id="statusRex">
+                          <option value="">Trạng Thái</option>
+                          <option selected="selected" value="0">Chờ duyệt</option>
+                          <option value="1">Đồng ý</option>
+                          <option value="2">Từ chối</option>
+                     </select>
+                </div>                
             </div>
             <div class="form-group col-md-9 padd-0" style="padding-left: 5px;">
                 <div class="col-md-9 padd-0">
                     <div class="col-md-4">
-                        <select class="form-control" >
-                          <option value="">Chọn người chi</option>
+                        <select class="form-control" id="selectPeople" >
+                        <option value="">Chọn người chi</option>
+                      <?php foreach ($inforUser as $item) {
+                        echo '<option value="'.$item['id'].'">'.$item['display_name'].'</option>';
+                        }  
+                        ?>                        
                         </select>
                      </div>
+                    <div class="col-md-3 padd-0">
+                        <select id="chooseBrand">
+                            <?php if(isset($data['store'])){ ?>
+                            <?php
+                            if($user['group_id']==1 || $user['group_id']==2 ||$user['group_id']==3){
+                            foreach ($data['store'] as $key => $item) :
+                            echo'<option value="'.$item['ID'].'"">'.$item['stock_name'].'</option>';
+                            endforeach;
+                            }
+                            ?>
+                            <?php } ?>
+                    </select>
+                    </div>                    
                     <div class="col-md-5 padd-0" style="padding-left: 5px;">
                         <div class="input-daterange input-group" id="datepicker">
                             <input type="text" class="input-sm form-control" id="search-date-from" placeholder="Từ ngày" name="start">
@@ -39,7 +72,7 @@
                             <input type="text" class="input-sm form-control" id="search-date-to" placeholder="Đến ngày" name="end">
                         </div>
                     </div>
-                    <div class="col-md-3 padd-0" style="padding-left: 5px;">
+                    <div style="display: none;" class="col-md-3 padd-0" style="padding-left: 5px;">
                         <button style="box-shadow: none;" type="button" class="btn btn-primary btn-large" onclick="cms_paging_reve(1)"><i class="fa fa-search"></i> Tìm kiếm
                         </button>
                     </div>
@@ -49,6 +82,7 @@
                         <button type="button" onclick="cms_reve_week()" class="btn btn-default">Tuần</button>
                         <button type="button" onclick="cms_reve_month()" class="btn btn-default">Tháng</button>
                         <button type="button" onclick="cms_reve_quarter()" class="btn btn-default">Quý</button>
+                        <button type="button" onclick="cms_reve_Year()" class="btn btn-default">Năm</button>
                     </div>
                 </div>
             </div>

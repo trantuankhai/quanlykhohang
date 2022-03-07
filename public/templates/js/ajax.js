@@ -729,10 +729,15 @@ function cms_crstore() {
     }
 
     if ($store_name) {
+        var $data = {
+            'data': {
+                'store_name': $store_name
+            }
+        };
         var $param = {
             'type': 'POST',
-            'url': 'config/cms_crstore/' + $store_name,
-            'data': null,
+            'url': 'config/cms_crstore/',
+            'data': $data,
             'callback': function (data) {
                 if (data != '1') {
                     $('.ajax-error-ct').html('Tên kho đã tồn tại hoặc không đúng!').parent().fadeIn().delay(1000).fadeOut('slow');
@@ -2517,6 +2522,7 @@ function cms_save_import(type) {
     if ($('tbody#pro_search_append tr').length == 0) {
         $('.ajax-error-ct').html('Xin vui lòng chọn ít nhất 1 sản phẩm cần xuất trước khi lưu hóa đơn nhập. Xin cảm ơn!').parent().fadeIn().delay(1000).fadeOut('slow');
     } else {
+        alert($('#store-id').val());
         $store_id = $('#store-id').val();
         $supplier_id = $('#search-box-mas').attr('data-id');
         $date = $('#date-order').val();
@@ -2866,11 +2872,11 @@ function cms_paging_input($page) {
         $keyword = elementSearchBox.val()
     }
     $option1 = $('#search-option-1').val();
-    //$option2 = $('#search-option-2').val();
+    $option2 = $('#select-pl-imp').val();
     //$option3 = $('#search-option-3').val();
     $date_from = $('#search-date-from').val();
     $date_to = $('#search-date-to').val();
-    $data = {'data': {'option1': $option1, 'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
+    $data = {'data': {'option1': $option1, 'option2':$option2,'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
     var $param = {
         'type': 'POST',
         'url': 'import/cms_paging_input/' + $page,
@@ -2988,13 +2994,16 @@ function cms_load_infor_order() {
 
 function cms_load_infor_import() {
     $total_money = 0;
+    $total_pr = 0;
     $('tbody#pro_search_append tr').each(function () {
         $quantity_product = $(this).find('input.quantity_product_import').val();
         $price = cms_decode_currency_format($(this).find('input.price-order').val());
         $total = $price * $quantity_product;
         $total_money += $total;
+        $total_pr +=parseInt($quantity_product);
         $(this).find('td.total-money').text(cms_encode_currency_format($total));
     });
+    $('div.total-produce').text($total_pr);
     $('div.total-money').text(cms_encode_currency_format($total_money));
 
     if ($('input.discount-import').val() == '')
@@ -3084,6 +3093,10 @@ function cms_set_all() {
     $('#search-date-from').val('2020-01-01');
     $('#search-date-to').val(firstday);
 }
+cms_input_year = () =>{
+    cms_set_all();
+    cms_paging_input(1);
+}
 function cms_profit_all_search() { 
     var curr = new Date; 
     var first = curr.getDate();
@@ -3099,6 +3112,17 @@ function cms_set_current_quarter() {
     var firstDate = new Date(d.getFullYear(), quarter * 3, 1);
     $('#search-date-from').datepicker("setDate", firstDate);
     $('#search-date-to').datepicker("setDate", new Date(firstDate.getFullYear(), firstDate.getMonth() + 3, 0));
+}
+function cms_set_current_year(){
+    var curr = new Date; 
+    var first = curr.getDate();
+    firstday = new Date(curr.setDate(first)).toISOString().split('T')[0]; 
+    $('#search-date-from').val(curr.getFullYear()+'-01-01');
+    $('#search-date-to').val(firstday);
+}
+cms_reve_Year = () =>{
+    cms_set_current_year();
+    cms_paging_reve(1);
 }
 
 function cms_input_week() {
@@ -3252,12 +3276,13 @@ function cms_paging_reve($page){
     }else{
         $keyword = elementSearchBox.val()
     }
-    $option1 = $('#search-option-1').val();
-    //$option2 = $('#search-option-2').val();
-    //$option3 = $('#search-option-3').val();
+    $option1 = $('#selectPhieu').val();
+    $option2 = $('#selectPeople').val();
+    $option3 = $('#statusRex').val();
+    $option4 = $('#chooseBrand').val();
     $date_from = $('#search-date-from').val();
     $date_to = $('#search-date-to').val();
-    $data = {'data': {'option1': $option1, 'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
+    $data = {'data': {'option1': $option1,'option2': $option2,'option3': $option3,'option4': $option4  ,'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
     var $param = {
         'type': 'POST',
         'url': 'revenueAndExpenditure/cms_paging_reve/' + $page,
@@ -3271,17 +3296,19 @@ function cms_paging_reve($page){
 }
 cms_paging_finance = ($page) =>{
     var elementSearchBox =  $('#input-search');
+    var elementTypeFinance =  $('#typeFinace');
     if(elementSearchBox.length ==0){
         $keyword = $('#order-search').val();
     }else{
         $keyword = elementSearchBox.val()
     }
     $option1 = $('#search-option-1').val();
+    $option2 = $('#typeFinace').val();
     //$option2 = $('#search-option-2').val();
     //$option3 = $('#search-option-3').val();
     $date_from = $('#search-date-from').val();
     $date_to = $('#search-date-to').val();
-    $data = {'data': {'option1': $option1, 'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
+    $data = {'data': {'option1': $option1, 'option2': $option2,'keyword': $keyword, 'date_from': $date_from, 'date_to': $date_to}};
     var $param = {
         'type': 'POST',
         'url': 'finance/cms_paging_finance/' + $page,
@@ -3386,6 +3413,7 @@ function add_reve_hihi($condition){
     var $note_reve = $.trim($('#note_reve').val());
     var $nameUser = $('#nameUser').text();
     var $type = $.trim($('#type').val());
+    var $brand = $.trim($('#brand').val());
     var flag = validateForm($name,$date,$total);
     if (flag == true) {
                 var $data = {
@@ -3400,7 +3428,8 @@ function add_reve_hihi($condition){
                 'user_init':'1',
                 'user_upd': '1',
                 'deleted':'0',
-                'type_re':$type
+                'type_re':$type,
+                'store':$brand
             }
         };
         var $param = {
@@ -3453,6 +3482,7 @@ function add_finance_hihi($condition){
     var $name = $.trim($('#finance_reason').val());
     var $date = $.trim($('#finance_date').val());
     var $total = $.trim($('#finance_total').val());
+    var $type = $.trim($('#finance_type').val());
     var $note_finance = $.trim($('#finance_note').val());
   //  var $nameUser = $('#nameUser').text();
   //  var $type = $.trim($('#type').val());
@@ -3468,6 +3498,7 @@ function add_finance_hihi($condition){
                 'updated':firstday,
                 'user_init':'1',
                 'user_upd': '1',
+                'type': $type,
                 'deleted':'0'
             }
         };
@@ -3826,3 +3857,37 @@ $('#create-mes').on('hidden.bs.modal', function (e) {
 browseKCFinder = ($var1, $var2) =>{
 
 }
+onchangeSrc  = (value) =>{
+    if(value == 2){
+        $('#nameEcome').show();
+    }else{
+        $('#nameEcome').hide();
+    }
+}
+
+    $('#selectPhieu').change(function () { //jQuery Change Function     
+        cms_paging_reve(1);
+    });
+        $('#selectPeople').change(function () { //jQuery Change Function     
+        cms_paging_reve(1);
+    });
+    
+    // $('#select-pl-imp').change(function () { //jQuery Change Function
+    //     // var opval = $(this).val(); //Get value from select element
+    //     // var opvalPeople= $('#selectPeople').val();
+    //     cms_paging_input(1);
+    // });
+        $('#statusRex').change(function () { //jQuery Change Function
+        // var opval = $(this).val(); //Get value from select element
+        // var opvalPeople= $('#selectPeople').val();
+        cms_paging_reve(1);
+    });
+        $('#chooseBrand').change(function(){
+            cms_paging_reve(1);
+        });
+
+    $('#typeFinace').change(function () { //jQuery Change Function  
+    console.log(1)   
+         cms_paging_finance(1);
+
+});

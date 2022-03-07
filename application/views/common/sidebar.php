@@ -28,6 +28,9 @@
         <?php if (in_array(8, $user['group_permission'])) : ?>
             <li id="revenueAndExpenditure"><a href="revenueAndExpenditure"><i class="fa fa-file-text"></i><b>Thu chi</b></a></li>
         <?php endif; ?>
+         <?php if (in_array(8, $user['group_permission'])) : ?>
+            <li id="revenueAndExpenditure"><a href="revenueAndExpenditure"><i class="fa fa-calculator"></i><b>Tính ROI / Giá Bán</b></a></li>
+        <?php endif; ?>
                 <?php if (in_array(8, $user['group_permission'])) : ?>
             <li id="depreciation"><a href="depreciation"><i class="fa fa-bug"></i><b>Khấu hao</b></a></li>
         <?php endif; ?>

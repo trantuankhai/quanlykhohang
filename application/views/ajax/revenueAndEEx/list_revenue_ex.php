@@ -23,15 +23,15 @@
                 <td><?php echo cms_encode_currency_format($item['total_money_revenue'])?></td>
                 <td>
                 <?php 
-                if($item['type_re'] == '1'){echo'Phiếu Thu';}
-                else if($item['type_re']=='2' ){echo'Phiếu Chi';}
+                if($item['type_re'] == '1'){echo'<p style="color:green">Phiếu Thu</p>';}
+                else if($item['type_re']=='2' ){echo'<p style="color:red">Phiếu Chi<p>';}
                 else if($item['type_re'] =='3'){echo'Rút Tiền';}
                 else if($item['type_re'] =='4'){echo 'Thanh Toán Chuyển Khoản';}
                 else{echo 'chưa xác định';} 
                 ;?>
                     
                 </td>
-                <td><?php  if($item['status'] == '0'){echo'chờ duyệt';}else if($item['status']=='1' ){echo'đồng ý';}else{echo'từ chối';} ;?></td>
+                <td><?php  if($item['status'] == '0'){echo'<p style="color:orange">chờ duyệt</p>';}else if($item['status']=='1' ){echo'<p style="color:green">đồng ý<p>';}else{echo'<p style="color:red">từ chối</p>';} ;?></td>
                 <td><?php echo $item['note_revenue']?></td>
                 <td class="text-center" style="background: #fff;">
                        <?php if($item['status'] == '0' && $item['user_init'] != $id_us )echo'<button style="margin-right:5px" class="btn btn-danger" onclick="accepttt('.$item['ID'].','.'1,'.$item['total_money_revenue'].')">Từ chối</button><button  class="btn btn-success" onclick="accepttt('.$item['ID'].','.'0,'.$item['total_money_revenue'].')">Chấp nhận</button>' ?>

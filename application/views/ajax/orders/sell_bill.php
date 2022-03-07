@@ -37,33 +37,33 @@
                 <input type="text" class="form-control" placeholder="Nhập mã sản phẩm hoặc tên sản phẩm"
                        id="search-pro-box">
             </div>
-<script>
-    $(function () {
-        $("#search-pro-box").autocomplete({
-            minLength: 1,
-            source: 'orders/cms_autocomplete_products/',
-            focus: function (event, ui) {
-                $("#search-pro-box").val(ui.item.prd_code);
-                return false;
-            },
-            select: function (event, ui) {
-                cms_select_product_sell(ui.item.ID);
-                $("#search-pro-box").val('');
-                return false;
-            }
-        }).keyup(function (e) {
-            if(e.which === 13) {
-                cms_autocomplete_enter_sell();
-                $("#search-pro-box").val('');
-                $(".ui-menu-item").hide();
-            }
-        })
-            .autocomplete("instance")._renderItem = function (ul, item) {
-            return $("<li>")
-                .append("<div>" + item.prd_code + " - " + item.prd_name + "</div>")
-                .appendTo(ul);
-        };
-    });
+            <script>
+                $(function () {
+                    $("#search-pro-box").autocomplete({
+                        minLength: 1,
+                        source: 'orders/cms_autocomplete_products/',
+                        focus: function (event, ui) {
+                            $("#search-pro-box").val(ui.item.prd_code);
+                            return false;
+                        },
+                        select: function (event, ui) {
+                            cms_select_product_sell(ui.item.ID);
+                            $("#search-pro-box").val('');
+                            return false;
+                        }
+                    }).keyup(function (e) {
+                        if(e.which === 13) {
+                            cms_autocomplete_enter_sell();
+                            $("#search-pro-box").val('');
+                            $(".ui-menu-item").hide();
+                        }
+                    })
+                        .autocomplete("instance")._renderItem = function (ul, item) {
+                        return $("<li>")
+                            .append("<div style=\"color:red \">" + item.prd_code + " - " + item.prd_name + "</div>")
+                            .appendTo(ul);
+                    };
+                });
 </script>
             <div class="product-results">
                 <table class="table table-bordered table-striped">
@@ -196,7 +196,7 @@
                                            placeholder="0" style="border-radius: 0 !important;">
                                 </div>
                             </div>
-                            <div class="form-group marg-bot-10 clearfix">
+                             <div class="form-group marg-bot-10 clearfix">
                                 <div class="col-md-4">
                                     <label>Bonus</label>
                                 </div>
@@ -205,7 +205,38 @@
                                            class="form-control text-right txtMoney bonus"
                                            placeholder="0" style="border-radius: 0 !important;">
                                 </div>
-                            </div>                            
+                            </div>
+                            <div class="form-group marg-bot-10 clearfix">
+                                <div class="col-md-4">
+                                    <label>Nơi bán</label>
+                                </div>
+                                <div class="col-md-8">
+                                <div class="input-group">
+                        
+                                    <select class="form-control" disabled="disabled" id="sale_id">
+                                        <?php foreach ($data as $item) { ?>
+                                            <option
+                                                value="<?php echo $item['id']; ?>"><?php echo $item['display_name']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                    
+                                </div>
+                            </div> 
+                            <div style="display: none" class="form-group marg-bot-10 clearfix" id="nameEcome">
+                                <div class="col-md-4">
+                                    <label>Tên Sàn</label>
+                                </div>
+                                <div class="col-md-8">
+                                <div class="input-group">
+                                        <input   type="radio" class="payment-method" name="" value="1"> Shopee&nbsp;
+                                        <input onclick="onchangeSrc(1)"  type="radio" class="payment-method" id="srcEcommerce"name="src" value="2" checked>
+                                        Lazada &nbsp;
+                                        <input type="radio" class="payment-method" name="src" value="3">Sendo&nbsp;
+                                         <input type="radio" class="payment-method" name="src" value="3">Tiki&nbsp;
+                                    </div>
+                                </div>
+                            </div>       
                             <div class="form-group marg-bot-10 clearfix">
                                 <div class="col-md-4">
                                     <label>Tổng cộng</label>

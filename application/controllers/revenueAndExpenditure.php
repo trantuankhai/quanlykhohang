@@ -9,6 +9,7 @@ class revenueAndExpenditure extends CI_Controller{
        if ($this->auth == null || !in_array(2, $this->auth['group_permission'])){
       	$this->cms_common_string->cms_redirect(CMS_BASE_URL . 'backend'); 	
        }
+       $data['inforUser'] = $this->db->from('users')->order_by('accBalance','desc')->where(('user_status'), 1)->get()->result_array();
         $data['seo']['title'] = "Phần mềm quản lý bán hàng";
         $data['data']['user'] = $this->auth;
         $data['template'] = 'revenueAndExpenditure/index';
@@ -23,55 +24,440 @@ class revenueAndExpenditure extends CI_Controller{
         $data['data']['user'] = $this->auth;
         $this->load->view('ajax/revenueAndEEx/add_bill', isset($data) ? $data : null);
  }
-   public function cms_paging_reve($page = 1)
-    {
-      $option = $this->input->post('data');
+   public function cms_paging_reve($page){
+       if($page == 'undefined') $page = 1;
+        $option = $this->input->post('data');
         $total_revenue = 0;
         $config = $this->cms_common->cms_pagination_custom();
        // $option['date_to'] = date('Y-m-d', strtotime($option['date_to'] . ' +1 day'));
      //   if ($option['option1'] == '0') {
            if($option['date_from']!='' && $option['date_to']!=''){
-                $total_revenue = $this->db
-                    ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
-                    ->from('cms_revenue_expenditure')
-                    ->where(['deleted' => 0])
-                    ->where('created >=',$option['date_from'])
-                    ->where('created <=',$option['date_to'])
-                    // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
-                    ->get()
-                    ->row_array();
-                $data['_list_revenue'] = $this->db
-                    ->from('cms_revenue_expenditure')
-                    ->limit($config['per_page'], ($page - 1) * $config['per_page'])
-                    ->order_by('created', 'desc')
-                    ->where(['deleted' => 0])
-                    ->where('created >=',$option['date_from'])
-                    ->where('created <=',$option['date_to'])
-                    // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
-                    ->order_by('created', 'desc')
-                    ->get()
-                    ->result_array();
+            if($option['option1'] =='' && $option['option2'] ==''){
+                    if($option['option3'] ==''){
+                             $total_revenue = $this->db
+                                ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                                ->from('cms_revenue_expenditure')
+                                ->where(['deleted' => 0])
+                                ->where(['status' => 1])
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to'])  
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)        
+                                ->get()
+                                ->row_array();
+                            $data['_list_revenue'] = $this->db
+                                ->from('cms_revenue_expenditure')
+                                ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                                ->order_by('created', 'desc')
+                                ->where(['deleted' => 0])
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to'])      
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)             
+                                ->order_by('created', 'desc')
+                                ->get()
+                                ->result_array();                         
+                        }else{
+                              $total_revenue = $this->db
+                                ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                                ->from('cms_revenue_expenditure')
+                                ->where(['deleted' => 0])
+                                ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to'])      
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)           
+                                ->get()
+                                ->row_array();
+                            $data['_list_revenue'] = $this->db
+                                ->from('cms_revenue_expenditure')
+                                ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                                ->order_by('created', 'desc')
+                                ->where(['deleted' => 0])
+                                ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to'])       
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)            
+                                ->order_by('created', 'desc')
+                                ->get()
+                                ->result_array();                              
+                        }
+
+                    }else if ($option['option1']!='' && $option['option2'] ==''){
+                        if($option['option3'] ==''){
+                                $total_revenue = $this->db
+                                ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                                ->from('cms_revenue_expenditure')
+                                ->where(['deleted' => 0])
+                                ->where(['status' => 1])
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to']) 
+                                ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                                // ->where("user_init like'%" . $option['option2'] . "%'", NULL, FALSE)                    
+                                ->get()
+                                ->row_array();
+                            $data['_list_revenue'] = $this->db
+                                ->from('cms_revenue_expenditure')
+                                ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                                ->order_by('created', 'desc')
+                                ->where(['deleted' => 0])
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to']) 
+                                ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                                // ->where("user_init like '%" . $option['option2'] . "%'", NULL, FALSE)                    
+                                ->order_by('created', 'desc')
+                                ->get()
+                                ->result_array();  
+                        }else{
+                                $total_revenue = $this->db
+                                ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                                ->from('cms_revenue_expenditure')
+                                ->where(['deleted' => 0])
+                                ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to']) 
+                                ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                                // ->where("user_init like'%" . $option['option2'] . "%'", NULL, FALSE)                    
+                                ->get()
+                                ->row_array();
+                            $data['_list_revenue'] = $this->db
+                                ->from('cms_revenue_expenditure')
+                                ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                                ->order_by('created', 'desc')
+                                ->where(['deleted' => 0])
+                                ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to']) 
+                                ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                                // ->where("user_init like '%" . $option['option2'] . "%'", NULL, FALSE)                    
+                                ->order_by('created', 'desc')
+                                ->get()
+                                ->result_array();
+                        }                          
+                    }else if($option['option1']=='' && $option['option2'] !=''){
+                        if($option['option3'] !=''){
+                            $total_revenue = $this->db
+                            ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                            ->from('cms_revenue_expenditure')
+                            ->where(['deleted' => 0])
+                            ->where(['status' => 1])
+                            ->where('created >=',$option['date_from'])
+                            ->where('created <=',$option['date_to']) 
+                            ->where("user_init =" . $option['option2'] . "", NULL, FALSE)       
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)             
+                            ->get()
+                            ->row_array();
+                        $data['_list_revenue'] = $this->db
+                            ->from('cms_revenue_expenditure')
+                            ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                            ->order_by('created', 'desc')
+                            ->where(['deleted' => 0])
+                            ->where('created >=',$option['date_from'])
+                            ->where('created <=',$option['date_to']) 
+                             ->where("user_init =" . $option['option2'] . "", NULL, FALSE)   
+                             ->where("store =" . $option['option4'] . "", NULL, FALSE)                 
+                            ->order_by('created', 'desc')
+                            ->get()
+                            ->result_array(); 
+                        }else{
+                                $total_revenue = $this->db
+                                ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                                ->from('cms_revenue_expenditure')
+                                ->where(['deleted' => 0])
+                                 ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to']) 
+                                ->where("user_init =" . $option['option2'] . "", NULL, FALSE)  
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)                  
+                                ->get()
+                                ->row_array();
+                            $data['_list_revenue'] = $this->db
+                                ->from('cms_revenue_expenditure')
+                                ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                                ->order_by('created', 'desc')
+                                ->where(['deleted' => 0])
+                                ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                                ->where('created >=',$option['date_from'])
+                                ->where('created <=',$option['date_to']) 
+                                 ->where("user_init =" . $option['option2'] . "", NULL, FALSE)         
+                                 ->where("store =" . $option['option4'] . "", NULL, FALSE)           
+                                ->order_by('created', 'desc')
+                                ->get()
+                                ->result_array(); 
+                        }     
+                    }else{
+                           $total_revenue = $this->db
+                            ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                            ->from('cms_revenue_expenditure')
+                            ->where(['deleted' => 0])
+                            ->where(['status' => 1])
+                            ->where('created >=',$option['date_from'])
+                            ->where('created <=',$option['date_to']) 
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                            ->where("user_init =" . $option['option2'] . "", NULL, FALSE)      
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)              
+                            ->get()
+                            ->row_array();
+                        $data['_list_revenue'] = $this->db
+                            ->from('cms_revenue_expenditure')
+                            ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                            ->order_by('created', 'desc')
+                            ->where(['deleted' => 0])
+                            ->where('created >=',$option['date_from'])
+                            ->where('created <=',$option['date_to']) 
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                             ->where("user_init =" . $option['option2'] . "", NULL, FALSE)  
+                             ->where("store =" . $option['option4'] . "", NULL, FALSE)                  
+                            ->order_by('created', 'desc')
+                            ->get()
+                            ->result_array();                           
+                    }     
                   }else{
-                $total_revenue = $this->db
-                    ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
-                    ->from('cms_revenue_expenditure')
-                    ->where(['deleted' => 0])
-                    // ->where('input_date >=',$option['date_from'])
-                    // ->where('input_date <=',$option['date_to'])
-                    // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
-                    ->get()
-                    ->row_array();
-                $data['_list_revenue'] = $this->db
-                    ->from('cms_revenue_expenditure')
-                    ->limit($config['per_page'], ($page - 1) * $config['per_page'])
-                    ->order_by('created', 'desc')
-                    ->where(['deleted' => 0])
-                    // ->where('input_date >=',$option['date_from'])
-                    // ->where('input_date <=',$option['date_to'])
-                    // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
-                    ->order_by('created', 'desc')
-                    ->get()
-                    ->result_array();                    
+                    if($option['option1'] =='' && $option['option2'] ==''){
+                        if($option['option3'] ==""){
+                            $total_revenue = $this->db
+                                ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                                ->from('cms_revenue_expenditure')
+                                ->where(['deleted' => 0])
+                                ->where(['status' => 1])
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                                // ->where('input_date >=',$option['date_from'])
+                                // ->where('input_date <=',$option['date_to'])
+                                // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                                // ->where("type_re like'%" . $option['option1'] . "%'", NULL, FALSE)
+                                // ->where("user_init like'%" . $option['option2'] . "%'", NULL, FALSE)                    
+                                ->get()
+                                ->row_array();
+                            $data['_list_revenue'] = $this->db
+                                ->from('cms_revenue_expenditure')
+                                ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                                ->order_by('created', 'desc')
+                                ->where(['deleted' => 0])
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                                // ->where('input_date >=',$option['date_from'])
+                                // ->where('input_date <=',$option['date_to'])
+                                // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                                // ->where("type_re like'%" . $option['option1'] . "%'", NULL, FALSE)
+                                // ->where("user_init like '%" . $option['option2'] . "%'", NULL, FALSE)                    
+                                ->order_by('created', 'desc')
+                                ->get()
+                                ->result_array(); 
+                        }else{
+                                $total_revenue = $this->db
+                                ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                                ->from('cms_revenue_expenditure')
+                                ->where(['deleted' => 0])
+                                ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                                // ->where('input_date >=',$option['date_from'])
+                                // ->where('input_date <=',$option['date_to'])
+                                // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                                // ->where("type_re like'%" . $option['option1'] . "%'", NULL, FALSE)
+                                // ->where("user_init like'%" . $option['option2'] . "%'", NULL, FALSE)                    
+                                ->get()
+                                ->row_array();
+                            $data['_list_revenue'] = $this->db
+                                ->from('cms_revenue_expenditure')
+                                ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                                ->order_by('created', 'desc')
+                                ->where(['deleted' => 0])                                
+                                ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                                ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                                // ->where('input_date >=',$option['date_from'])
+                                // ->where('input_date <=',$option['date_to'])
+                                // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                                // ->where("type_re like'%" . $option['option1'] . "%'", NULL, FALSE)
+                                // ->where("user_init like '%" . $option['option2'] . "%'", NULL, FALSE)                    
+                                ->order_by('created', 'desc')
+                                ->get()
+                                ->result_array(); 
+                        }
+                    }else if ($option['option1']!='' && $option['option2'] ==''){
+                        if($option['option1']==''){
+                             $total_revenue = $this->db
+                            ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                            ->from('cms_revenue_expenditure')
+                            ->where(['deleted' => 0])
+                            ->where(['status' => 1])
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                            // ->where("user_init like'%" . $option['option2'] . "%'", NULL, FALSE)                    
+                            ->get()
+                            ->row_array();
+                        $data['_list_revenue'] = $this->db
+                            ->from('cms_revenue_expenditure')
+                            ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                            ->order_by('created', 'desc')
+                            ->where(['deleted' => 0])
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                          //  ->where(['status' => 1])
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                            // ->where("user_init like '%" . $option['option2'] . "%'", NULL, FALSE)                    
+                            ->order_by('created', 'desc')
+                            ->get()
+                            ->result_array(); 
+                        }else{
+                            $total_revenue = $this->db
+                            ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                            ->from('cms_revenue_expenditure')
+                            ->where(['deleted' => 0])
+                            ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                            // ->where("user_init like'%" . $option['option2'] . "%'", NULL, FALSE)                    
+                            ->get()
+                            ->row_array();
+                        $data['_list_revenue'] = $this->db
+                            ->from('cms_revenue_expenditure')
+                            ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                            ->order_by('created', 'desc')
+                            ->where(['deleted' => 0])
+                             ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                             ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                          //  ->where(['status' => 1])
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                            // ->where("user_init like '%" . $option['option2'] . "%'", NULL, FALSE)                    
+                            ->order_by('created', 'desc')
+                            ->get()
+                            ->result_array();  
+                        }
+                    }else if($option['option1']=='' && $option['option2'] !=''){
+                        if($option['option3']==''){
+                             $total_revenue = $this->db
+                            ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                            ->from('cms_revenue_expenditure')
+                            ->where(['deleted' => 0])
+                            ->where(['status' => 1])
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            //->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                            ->where("user_init =" . $option['option2'] . "", NULL, FALSE)                    
+                            ->get()
+                            ->row_array();
+                        $data['_list_revenue'] = $this->db
+                            ->from('cms_revenue_expenditure')
+                            ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                            ->order_by('created', 'desc')
+                            ->where(['deleted' => 0])
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)
+                          //  ->where(['status' => 1])
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            //->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                             ->where("user_init =" . $option['option2'] . "", NULL, FALSE)                    
+                            ->order_by('created', 'desc')
+                            ->get()
+                            ->result_array();
+                        } else{
+                             $total_revenue = $this->db
+                            ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                            ->from('cms_revenue_expenditure')
+                            ->where(['deleted' => 0])
+                             ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                            ->where("user_init =" . $option['option2'] . "", NULL, FALSE)   
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)                 
+                            ->get()
+                            ->row_array();
+                        $data['_list_revenue'] = $this->db
+                            ->from('cms_revenue_expenditure')
+                            ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                            ->order_by('created', 'desc')
+                            ->where(['deleted' => 0])
+                          //  ->where(['status' => 1])
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            //->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                             ->where("user_init =" . $option['option2'] . "", NULL, FALSE)
+                              ->where("status =" . $option['option3'] . "", NULL, FALSE)         
+                              ->where("store =" . $option['option4'] . "", NULL, FALSE)           
+                            ->order_by('created', 'desc')
+                            ->get()
+                            ->result_array();
+                        }     
+                    }else{
+                        if($option['option3']==''){
+                           $total_revenue = $this->db
+                            ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                            ->from('cms_revenue_expenditure')
+                            ->where(['deleted' => 0])
+                            ->where(['status' => 1])
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                            ->where("user_init =" . $option['option2'] . "", NULL, FALSE)   
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)                 
+                            ->get()
+                            ->row_array();
+                        $data['_list_revenue'] = $this->db
+                            ->from('cms_revenue_expenditure')
+                            ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                            ->order_by('created', 'desc')
+                            ->where(['deleted' => 0])
+                         //   ->where(['status' => 1])
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                             ->where("user_init =" . $option['option2'] . "", NULL, FALSE)     
+                             ->where("store =" . $option['option4'] . "", NULL, FALSE)              
+                            ->order_by('created', 'desc')
+                            ->get()
+                            ->result_array();  
+                        }else{
+                            $total_revenue = $this->db
+                            ->select('count(ID) as quantity, sum(total_money_revenue) as total_money')
+                            ->from('cms_revenue_expenditure')
+                            ->where(['deleted' => 0])
+                           ->where("status =" . $option['option3'] . "", NULL, FALSE)
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                            ->where("user_init =" . $option['option2'] . "", NULL, FALSE)    
+                            ->where("store =" . $option['option4'] . "", NULL, FALSE)                
+                            ->get()
+                            ->row_array();
+                        $data['_list_revenue'] = $this->db
+                            ->from('cms_revenue_expenditure')
+                            ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                            ->order_by('created', 'desc')
+                            ->where(['deleted' => 0])
+                         //   ->where(['status' => 1])
+                            // ->where('input_date >=',$option['date_from'])
+                            // ->where('input_date <=',$option['date_to'])
+                            // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                            ->where("type_re =" . $option['option1'] . "", NULL, FALSE)
+                             ->where("user_init =" . $option['option2'] . "", NULL, FALSE)    
+                             ->where("status =" . $option['option3'] . "", NULL, FALSE)    
+                             ->where("store =" . $option['option4'] . "", NULL, FALSE)            
+                            ->order_by('created', 'desc')
+                            ->get()
+                            ->result_array();  
+                        }
+                         
+                    }           
 
                   }
         $config['base_url'] = 'cms_paging_reve';
@@ -83,7 +469,8 @@ class revenueAndExpenditure extends CI_Controller{
         $data['id_us'] = $this->auth['id'];
         if ($page > 1 && ($total_revenue['quantity'] - 1) / ($page - 1) == 10)
             $page = $page - 1;
-     //   $data['option'] = $option['option1'];
+        $data['option'] = $option['option1'];
+        $data['option'] = $option['option2'];
         $data['page'] = $page;
         $data['_pagination_link'] = $_pagination_link;
         $this->load->view('ajax/revenueAndEEx/list_revenue_ex', isset($data) ? $data : null);

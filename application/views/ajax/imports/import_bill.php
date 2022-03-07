@@ -185,6 +185,16 @@
                                 </div>
                             </div>
                             <div class="form-group marg-bot-10 clearfix">
+                                <div class="col-md-4">
+                                    <label>Số lượng</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="total-produce">
+                                        0
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="form-group marg-bot-10 clearfix">
                                 <div class="col-md-4 padd-right-0">
                                     <label>Chiết khấu</label>
                                 </div>

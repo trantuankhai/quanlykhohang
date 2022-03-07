@@ -60,15 +60,16 @@ class Config extends CI_Controller
        echo $this->message = $template['content'];
     }
 
-    public function cms_crstore($store_name)
+    public function cms_crstore()
     {
-        $count = $this->db->where('stock_name', $store_name)->from('stores')->count_all_results();
+        $input = $this->input->post('data');
+        $count = $this->db->where('stock_name', $input['store_name'])->from('stores')->count_all_results();
         if ($count == 0) {
-            $data = ['stock_name' => $store_name, 'user_init'=>$this->auth['id']];
+            $data = ['stock_name' => $input['store_name'], 'user_init'=>$this->auth['id']];
             $this->db->insert('stores', $data);
             echo $this->messages = '1';
         } else {
-            echo $this->messages = 'Nhóm Chức năng ' . $store_name . ' đã tồn tại trong hệ thống.Vui lòng tạo tên nhóm khác.';
+            echo $this->messages = 'Nhóm Chức năng ' . $input['store_name'] . ' đã tồn tại trong hệ thống.Vui lòng tạo tên nhóm khác.';
         }
     }
 }

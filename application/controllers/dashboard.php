@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+ <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 // controller control user authentication
 class Dashboard extends CI_Controller
