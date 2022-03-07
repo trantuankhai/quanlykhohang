@@ -30,9 +30,11 @@
                  <div class="col-md-12">
                     <select class="form-control" id="typeFinace">
                           <option value="0">Loại chi tiêu</option>
-                          <option value="1">Thiết yếu</option>  
-                          <option value="2">Chưa thiết yếu</option>
-                          <option value="3">Lãng phí</option>
+                          <option value="1">Tiền Ăn</option>  
+                          <option value="2">Mua sắm đồ thiết yếu</option>
+                          <option value="3">Chi tiêu chính đáng</option>
+                            <option value="4">Chi tiêu lãng phí</option>
+                          <option value="5">Đi chơi</option>                          
                      </select>
                 </div>
                 </div>                

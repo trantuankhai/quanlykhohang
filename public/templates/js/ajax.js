@@ -44,6 +44,18 @@ $(document).ready(function () {
         cms_paging_revenue(1);
         cms_revenue_search();
     }
+        if (window.location.pathname.indexOf('roi') !== -1 && window.location.pathname.indexOf('roi') == -1) {
+        $('.input-daterange').datepicker({
+            format: "yyyy-mm-dd",
+            todayBtn: "linked",
+            language: "vi",
+            autoclose: true,
+            todayHighlight: true,
+            toggleActive: true
+        });
+        $('li#revenue').addClass('active');
+        cms_paging_revenue(1);
+    }
     // Start Show Data Screen thu chi
     if (window.location.pathname.indexOf('Expenditure') !== -1) {
         $('li#revenue').removeClass('active');
@@ -3303,7 +3315,8 @@ cms_paging_finance = ($page) =>{
         $keyword = elementSearchBox.val()
     }
     $option1 = $('#search-option-1').val();
-    $option2 = $('#typeFinace').val();
+    $option2 = elementTypeFinance.val();
+    console.log($option2);
     //$option2 = $('#search-option-2').val();
     //$option3 = $('#search-option-3').val();
     $date_from = $('#search-date-from').val();
@@ -3886,8 +3899,27 @@ onchangeSrc  = (value) =>{
             cms_paging_reve(1);
         });
 
-    $('#typeFinace').change(function () { //jQuery Change Function  
-    console.log(1)   
+    $('#typeFinace').change(function () {  
          cms_paging_finance(1);
 
+});
+
+
+
+
+
+$("#priceSaleProduce").keyup(function () {
+        runTotal();
+ });
+runTotal = () =>{
+ var priceSaleProduce = $('#priceSaleProduce').val();
+ var tranExtra = $('#tranExtra');
+ tranExtra.val(cms_encode_currency_format(cms_decode_currency_format(priceSaleProduce)*(0.022)));
+
+}
+$('#cb-freeExtra').click(function() {
+/*  if ($(this).is(':checked')) {
+    // Do stuff
+  }*/
+  console.log("abc")
 });

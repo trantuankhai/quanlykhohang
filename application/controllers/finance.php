@@ -28,7 +28,7 @@ class finance extends CI_Controller{
        // $option['date_to'] = date('Y-m-d', strtotime($option['date_to'] . ' +1 day'));
      //   if ($option['option1'] == '0') {
            if($option['date_from']!='' && $option['date_to']!=''){
-                            if($option['option2']!=0){
+                if($option['option2']!=0){
                     $total_finance = $this->db
                     ->select('count(ID) as quantity, sum(total) as total_money')
                     ->from('cms_finance')
@@ -53,9 +53,8 @@ class finance extends CI_Controller{
                     ->order_by('created', 'desc')
                     ->get()
                     ->result_array();
-                }
-
-                $total_finance = $this->db
+                }else{
+                    $total_finance = $this->db
                     ->select('count(ID) as quantity, sum(total) as total_money')
                     ->from('cms_finance')
                     ->where(['deleted' => 0])
@@ -77,8 +76,33 @@ class finance extends CI_Controller{
                     ->order_by('created', 'desc')
                     ->get()
                     ->result_array();
-                  }else{
-                $total_finance = $this->db
+                }
+
+            }else{
+                if($option['option2']!=0){
+                    $total_finance = $this->db
+                    ->select('count(ID) as quantity, sum(total) as total_money')
+                    ->from('cms_finance')
+                    ->where(['deleted' => 0])
+                    ->where('type =',$option['option2'])
+                    ->where('user_init =',$id_user)
+                    // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->get()
+                    ->row_array();
+                $data['_list_finance'] = $this->db
+                    ->from('cms_finance')
+                    ->limit($config['per_page'], ($page - 1) * $config['per_page'])
+                    ->order_by('created', 'desc')
+                    ->where(['deleted' => 0])
+                    ->where('type =',$option['option2'])
+                    ->where('user_init =',$id_user)
+                    // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
+                    ->order_by('created', 'desc')
+                    ->get()
+                    ->result_array();
+
+                }else{
+                 $total_finance = $this->db
                     ->select('count(ID) as quantity, sum(total) as total_money')
                     ->from('cms_finance')
                     ->where(['deleted' => 0])
@@ -99,9 +123,10 @@ class finance extends CI_Controller{
                     // ->where("(input_code LIKE '%" . $option['keyword'] . "%')", NULL, FALSE)
                     ->order_by('created', 'desc')
                     ->get()
-                    ->result_array();                    
-
-                  }
+                    ->result_array();       
+                }
+                                 
+         }
         $config['base_url'] = 'cms_paging_finance';
         $config['total_rows'] = $total_finance['quantity'];
         $config['per_page'] = 10;
