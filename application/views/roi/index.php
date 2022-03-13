@@ -28,63 +28,72 @@
                            <div class="form-group clearfix">
                                 <div class="col-md-6 padd-left-0">
                                     <label>Giá nhập sản phẩm</label>
-                                    <input  type="text" id="priceSaleProduce" 
-                                           class="form-control txtMoney"
+                                    <input  type="text" value = "0" id="priceInputProduce" 
+                                           class="form-control abc"
                                            placeholder="Nhập giá sản phẩm"/>
                                 </div>
                                 <div class="col-md-6 padd-right-0">
-                                    <label>Lãi dự kiến(%)</label>
-                                    <input type="number" class="form-control "
-                                           placeholder="0-100%"/>
+                                    <label>Giá bán dự kiến</label>
+                                    <input type="text" value = "0" id="priceSaleProduce" class="form-control abc"
+                                           placeholder="Nhập giá bán"/>
                                 </div>
+                                <div class="col-md-6 padd-left-0">
+                                    <label>Lãi dự kiến(%)</label>
+                                    <input disabled type="text" value = "0" class="form-control abc "
+                                           placeholder="0-100%"/>
+                                </div>                                
                             </div>
                     </div>
                     <div class="col-md-4" style="border: 1px dotted black;">
                         <h2>Vật tư đóng gói</h2>
                            <div class="form-group clearfix">
                                 <div class="col-md-6 padd-left-0">
-                                    <label>Lương nhân công</label>
-                                    <input type="text" id=""
-                                           class="form-control txtMoney"
+                                    <label>Lương nhân công + mặt bằng</label>
+                                    <input type="text" value = "0" id="nhanCong"
+                                           class="form-control abc"
                                            placeholder="Nhập số tiền"/>
                                 </div>
                                 <div class="col-md-6 padd-left-0">
                                     <label>Thùng gói hàng</label>
-                                    <input type="text" id="" class="form-control txtMoney "
+                                    <input type="text" value = "0" id="thungGoiHang" class="form-control abc "
                                            placeholder="Nhập số tiền"/>
                                 </div>
                                  <div class="col-md-6 padd-left-0">
                                     <label>Quà tặng</label>
-                                    <input type="text" id="" class="form-control  txtMoney"
+                                    <input type="text" value = "0" id="quaTang" class="form-control  abc"
                                            placeholder="Nhập số tiền"/>
                                 </div>
                                  <div class="col-md-6 padd-left-0">
                                     <label>Tem Mác</label>
-                                    <input type="text" id="" class="form-control txtMoney "
+                                    <input type="text" value = "0" id="temMac" class="form-control abc "
                                            placeholder="Nhập số tiền"/>
                                 </div>                                
                             </div>
                     </div>
                     <div class="col-md-4" style="border: 1px dotted black;">
-                        <h2>Chi phí biến đổi</h2>
-                        <small>Nhập tên và các thông tin cơ bản của sản phẩm</small>
+                        <h2>Chi phí biến đổi - ước tính</h2>
                            <div class="form-group clearfix">
                                 <div class="col-md-6 padd-left-0">
-                                    <label>Tên sản phẩm</label>
-                                    <input type="text" id=""
-                                           class="form-control"
-                                           placeholder="Nhập tên sản phẩm"/>
+                                    <label>Chi phí quảng cáo(%)</label>
+                                    <input  type="number" value="0" id="totalMkt"
+                                           class="form-control abc"
+                                           placeholder="0-100%"/>
                                 </div>
                                 <div class="col-md-6 padd-right-0">
-                                    <label>Mã sản phẩm</label>
-                                    <input type="text" id="" class="form-control "
-                                           placeholder="Nế"/>
+                                    <label>Mã giảm giá(%)</label>
+                                    <input type="number" value="0" id="maGiamGia" class="form-control abc"
+                                           placeholder="0-100%"/>
                                 </div>
+                               <div class="col-md-6 padd-left-0">
+                                    <label>Chi phí hoàn hàng(%)</label>
+                                    <input type="number" value="0" id="hoanHang" class="form-control abc"
+                                           placeholder="0-100%"/>
+                                </div>                                
                             </div>
+                                
                     </div>                    
                 </div>
     	<div class="col-md-12">    
-
     		<div class="col-md-4">
                         <h2>Phí sàn</h2>
                            <div class="form-group clearfix">
@@ -92,37 +101,53 @@
                                 	<label>Các gói Extra</label>
                                 	<div   style="margin-left: 0px;" class="col-md-12 padd-left-0">
                                 		<div class="col-md-6">
-                                 	<label class="checkbox"><input type="checkbox" id="cb-freeExtra" class="checkbox" name="confirm" value="1"><span></span>Freeship Extra</label>                               			
+                                            <input type="checkbox" id="cb_freeExtra" class="checkbox" ><span></span>Freeship Extra</label>                              			
                                 		</div>
                                 		<div class="col-md-6">
-                                	<label class="checkbox"><input type="checkbox" id="cb_xuExtra" class="checkbox" name="confirm" value="1"><span></span>Hoàn Xu Extra</label>                                			
+                                	<input type="checkbox" id="cb_xuExtra" class="checkbox" ><span></span>Hoàn Xu Extra</label>                                			
                                 		</div>                             	                                		
                                 	</div>
                                 </div>
                                 <div class="col-md-12 padd-left-0">                               	
                                     <label>Phí giao dịch (2.2% tổng giá bán và ship)</label>
-                                    <input disabled type="text" id="tranExtra"
-                                           class="form-control txtMoney"
+                                    <input disabled type="text" value = "0" id="tranExtra"
+                                           class="form-control abc"
                                            placeholder=""/>
                                 </div>
                                 <div class="col-md-12 padd-left-0">
                                     <label>Phí Freeship Extra (6% max 20k/sp, 5% nếu dùng cả hoàn xu)</label>
-                                    <input disabled type="text" id="freeExtra" class="form-control "
+                                    <input disabled type="text" value = "0" id="freeExtra" class="form-control "
                                            placeholder=""/>
                                 </div>
                                 <div class="col-md-12 padd-left-0">
                                     <label>Phí Hoàn Xu Extra (4% tối đa 20k cho một sản phẩm)</label>
-                                    <input disabled type="text" id="xuExtra" class="form-control "
+                                    <input disabled type="text" value = "0" id="xuExtra" class="form-control "
                                            placeholder=""/>
                                 </div>                                
                             </div>		
     		</div>
-    		<div class="col-md-4"></div>
+    		<div class="col-md-4">
+                <h2>Kết quả</h2>
+                <lable>Doanh thu:</lable><label id="rsTotal"></label><br>
+                <lable>Lợi nhuận: </lable><label id="rsRoi"></label><br>
+                <lable>Phần trăm lợi nhuận: </lable><label id="rsPhanTramRoi"></label>
+            </div>
     		<div class="col-md-4"></div>
     	</div>            
             </div>
         </div>   	
 </div>
+<style>
+    
+    input[type="checkbox"] {
+    display: block;
+}
+section.main div.main-content {
+    margin-top: 160px;
+    margin-left: 1%;
+    font-size: 14px;
+}
+</style>
 <script>
 
 

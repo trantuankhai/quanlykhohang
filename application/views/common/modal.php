@@ -461,9 +461,12 @@ style="font-weight: bold; font-size: 18px;">Thông báo!</span>
                     </div>
                     <div class="col-md-4">
                         <select id="finance_type" >
-                            <option value="1">Thiếu yếu</option>
-                            <option value="2">Chưa thiếu yếu</option>
-                            <option value="3">Lãng phí</option>
+                          <option value="0">Loại chi tiêu</option>
+                          <option value="1">Tiền Ăn</option>  
+                          <option value="2">Mua sắm đồ thiết yếu</option>
+                          <option value="3">Chi tiêu chính đáng</option>
+                            <option value="4">Chi tiêu lãng phí</option>
+                          <option value="5">Đi chơi</option> 
                         </select>
                     </div>
                 </div>                

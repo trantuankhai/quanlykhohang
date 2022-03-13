@@ -3911,15 +3911,81 @@ onchangeSrc  = (value) =>{
 $("#priceSaleProduce").keyup(function () {
         runTotal();
  });
+$("#priceInputProduce").keyup(function () {
+        runTotal();
+ });
+$("#nhanCong").keyup(function () {
+        runTotal();
+ });
+$("#thungGoiHang").keyup(function () {
+        runTotal();
+ });
+$("#quaTang").keyup(function () {
+        runTotal();
+ });
+$("#temMac").keyup(function () {
+        runTotal();
+ });
+$("#totalMkt").keyup(function () {
+        runTotal();
+ });
+$("#hoanHang").keyup(function () {
+        runTotal();
+ });
+$("#maGiamGia").keyup(function () {
+        runTotal();
+ });
 runTotal = () =>{
- var priceSaleProduce = $('#priceSaleProduce').val();
- var tranExtra = $('#tranExtra');
- tranExtra.val(cms_encode_currency_format(cms_decode_currency_format(priceSaleProduce)*(0.022)));
+  // debugger;
+    var priceSaleProduce = parseInt($('#priceSaleProduce').val());
+     var priceInputProduce = parseInt($('#priceInputProduce').val());
+     if(priceSaleProduce!=0 && priceInputProduce!=0){
+            var isfreeExtra =$('#freeExtra'),isxuExtra =  $('#xuExtra');
+  var isfreeExtraCB =false, isxuExtraCB = false;
+  var isxuExtraValue = 0 , isfreeExtraValue =0,  tranExtraValue = 0;
+
+  isfreeExtraCB =  $('#cb_freeExtra').prop('checked');
+  isxuExtraCB = $('#cb_xuExtra').prop('checked');
+
+ if(isfreeExtraCB == true && isxuExtraCB == false){
+    isfreeExtra.val(priceSaleProduce*0.06);
+    isfreeExtraValue = priceSaleProduce*0.06;
+    isxuExtraValue = 0;
+    isxuExtra.val(0);
+ }else if(isfreeExtraCB == false && isxuExtraCB == true){
+    isxuExtra.val(priceSaleProduce*0.04);
+    isxuExtraValue = priceSaleProduce*0.04;
+    isfreeExtraValue = 0;
+    isfreeExtra.val(0);
+ }else if(isfreeExtraCB == true && isxuExtraCB == true){
+    isfreeExtra.val(priceSaleProduce*0.05);
+    isxuExtra.val(priceSaleProduce*0.04);
+    isxuExtraValue = priceSaleProduce*0.04;
+    isfreeExtraValue = priceSaleProduce*0.05;
+ }else{
+    isxuExtraValue = 0;
+    isfreeExtraValue =0;
+    isfreeExtra.val(0);
+    isxuExtra.val(0);
+ }
+var tranExtra = $('#tranExtra'), freeExtra = $('#freeExtra'), xuExtra = $('#xuExtra');
+ var nhanCong = parseInt($('#nhanCong').val()),thungGoiHang = parseInt($('#thungGoiHang').val())
+ ,quaTang = parseInt($('#quaTang').val()),temMac = parseInt($('#temMac').val())
+ ,totalMkt = (parseInt($('#totalMkt').val())/100) *priceSaleProduce,maGiamGia = (parseInt($('#maGiamGia').val())/100)*priceSaleProduce
+ ,hoanHang = (parseInt(($('#hoanHang').val()))/100)*priceSaleProduce;
+
+  tranExtra.val(priceSaleProduce*0.022);tranExtraValue = priceSaleProduce*0.022;
+var result =priceSaleProduce-(isxuExtraValue+isfreeExtraValue+tranExtraValue+priceInputProduce+nhanCong+thungGoiHang+quaTang+temMac+totalMkt+maGiamGia+hoanHang);
+
+$('#rsRoi').text(result);
+$('#rsPhanTramRoi').text((((result/priceInputProduce))*100).toFixed()+ '%');
+$('#rsTotal').text();
+     }
 
 }
-$('#cb-freeExtra').click(function() {
-/*  if ($(this).is(':checked')) {
-    // Do stuff
-  }*/
-  console.log("abc")
+$('#cb_freeExtra').change(function() {
+    runTotal();
+});
+$('#cb_xuExtra').change(function() {
+    runTotal();
 });
